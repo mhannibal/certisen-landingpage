@@ -1,0 +1,66 @@
+{
+  "homePage": {
+    "title": "Certification pour les Réseaux Sensibles au Temps",
+    "description": "Réseaux TSN Certifiés et Optimisés par IA pour Systèmes Critiques de Sécurité",
+    "launchEditor": "Lancer l'Éditeur",
+
+    "features": {
+      "title": "Vérification de Réseau Pré-Déploiement au Niveau de Confiance ASIL-D",
+      "subtitle": "Phase de Conception De la conception de la topologie à la preuve formelle — CertiSen couvre l'intégralité du cycle de vie des réseaux Ethernet déterministes.",
+      "visualDesign": {
+        "title": "Conception Visuelle du Réseau",
+        "description": "Interface glisser-déposer pour construire des topologies réseau TSN avec commutateurs et stations."
+      },
+      "realTimeSimulation": {
+        "title": "Une Brique dans l'Écosystème",
+        "description": "CertiSen complète les outils existants en ajoutant la vérification formelle dans le processus de conception TSN."
+      },
+      "analytics": {
+        "title": "Analyse & Validation",
+        "description": "Une analyse de pré-certification"
+      },
+      "security": {
+        "title": "Certification Formelle",
+        "description": "spécifier les protocoles TSN, prouver la correction de la configuration TSN."
+      },
+      "performance": {
+        "title": "Optimisation par IA",
+        "description": "permettant la génération de configuration TSN pilotée par IA, soutenue par un certificateur léger pour la vérification formelle"
+      },
+      "export": {
+        "title": "Export Multi-Format",
+        "description": "Exportez vers JSON, XML, YANG ou YAML."
+      }
+    },
+
+    "cta": {
+      "title": "Prêt à Certifier Votre Réseau ?",
+      "description": "Rejoignez la communauté grandissante d'ingénieurs TSN, d'intégrateurs systèmes et de professionnels de l'automobile qui font confiance à CertiSen pour la certification de réseaux critiques de sécurité.",
+      "button": "Commencer la Conception Maintenant"
+    },
+
+    "footer": {
+      "copyright": "© 2026 CertiSen. Tous droits réservés.",
+      "documentation": "Documentation",
+      "support": "Support",
+      "privacy": "Politique de Confidentialité"
+    },
+
+    "contact": {
+      "title": "Contactez-Nous",
+      "subtitle": "Vous avez une question sur CertiSen ? Nous serions ravis de vous entendre.",
+      "name": "Nom",
+      "email": "E-mail",
+      "subject": "Sujet",
+      "message": "Message",
+      "send": "Envoyer le Message",
+      "sending": "Envoi en cours…",
+      "success": "Votre message a été envoyé ! Nous vous répondrons sous peu.",
+      "error": "Échec de l'envoi de votre message. Veuillez réessayer plus tard.",
+      "namePlaceholder": "Votre nom complet",
+      "emailPlaceholder": "vous@exemple.com",
+      "subjectPlaceholder": "Comment pouvons-nous vous aider ?",
+      "messagePlaceholder": "Parlez-nous davantage de votre question ou projet…"
+    }
+  }
+}

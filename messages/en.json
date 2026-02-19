@@ -1,0 +1,66 @@
+{
+  "homePage": {
+    "title": "Certification for Time-Sensitive Networking",
+    "description": "Certified, AI-Optimized TSN Networks for Safety-Critical Systems",
+    "launchEditor": "Launch Editor",
+
+    "features": {
+      "title": "Pre-Deployment Network Verification at ASIL-D Confidence Level",
+      "subtitle": "Design Phase From topology design to formal proof — CertiSen covers the full lifecycle of deterministic Ethernet networks.",
+      "visualDesign": {
+        "title": "Visual Network Design",
+        "description": "Drag-and-drop interface to build TSN network topologies with switches and end-stations."
+      },
+      "realTimeSimulation": {
+        "title": "A brick in the ecosystem",
+        "description": "CertiSen complements existing tools by adding formal verification in the TSN design process."
+      },
+      "analytics": {
+        "title": "Analysis & Validation",
+        "description": "A pre-certificattion analysis "
+      },
+      "security": {
+        "title": "Formal Certification",
+        "description": "specify TSN protocols, prove TSN configuration correctness."
+      },
+      "performance": {
+        "title": "AI Optimisation",
+        "description": "enabling AI-driven TSN configuration generation, backed by a light-weighted certifier for formal verification"
+      },
+      "export": {
+        "title": "Multi-Format Export",
+        "description": "Export to JSON, XML,YANG or YAML."
+      }
+    },
+
+    "cta": {
+      "title": "Ready to Certify Your Network?",
+      "description": "Join the growing community of TSN engineers, system integrators, and automotive professionals who trust CertiSen for safety-critical network certification.",
+      "button": "Start Designing Now"
+    },
+
+    "footer": {
+      "copyright": "© 2026 CertiSen. All rights reserved.",
+      "documentation": "Documentation",
+      "support": "Support",
+      "privacy": "Privacy Policy"
+    },
+
+    "contact": {
+      "title": "Get in Touch",
+      "subtitle": "Have a question about CertiSen? We'd love to hear from you.",
+      "name": "Name",
+      "email": "Email",
+      "subject": "Subject",
+      "message": "Message",
+      "send": "Send Message",
+      "sending": "Sending…",
+      "success": "Your message has been sent! We'll get back to you shortly.",
+      "error": "Failed to send your message. Please try again later.",
+      "namePlaceholder": "Your full name",
+      "emailPlaceholder": "you@example.com",
+      "subjectPlaceholder": "How can we help?",
+      "messagePlaceholder": "Tell us more about your question or project…"
+    }
+  }
+}
