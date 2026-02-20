@@ -11,6 +11,7 @@ import type { Metadata } from 'next';
 import AutoAnimation from '@/components/autoAnimation';
 import SolutionDiagram from '@/components/SolutionDiagram';
 import TSNNetworkDemoWrapper from '@/components/TSNNetworkDemoWrapper';
+import Image from 'next/image';
 
 export async function generateMetadata({ params }: { params: Promise<{ local: string }> }): Promise<Metadata> {
   const { local } = await params;
@@ -78,8 +79,8 @@ export default function Home() {
         {/* Hero Section */}
         <section className="relative container mx-auto px-4 py-20 overflow-hidden">
           <div className="relative z-10 flex flex-col items-center text-center space-y-8">
-            <img src="/certisenlogo.png" alt="CertiSen Logo" width={150} height={150} />
-
+            <Image src="/certisenlogo.png" alt="CertiSen Logo" width={150} height={150} />
+    
             <h1 className="text-5xl md:text-7xl font-bold tracking-tight text-primary-foreground">
               {t('title')}
             </h1>
@@ -238,7 +239,12 @@ export default function Home() {
             
             <div className="w-32 h-16 flex items-center justify-center bg-white p-4 rounded-lg  border-primary-foreground/10 hover:border-primary-foreground/30 transition-colors">
               <span className="text-primary-foreground/10 font-semibold text-sm">
-                            <img src={'inria.png'} />
+                <Image
+                  src={'/inria.png'}
+                  alt='inria logo'
+                  width={200}
+                  height={200}
+                  />
 
 </span>
             </div>
