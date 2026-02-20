@@ -3,7 +3,10 @@
     "title": "Certification for Time-Sensitive Networking",
     "description": "Certified, AI-Optimized TSN Networks for Safety-Critical Systems",
     "launchEditor": "Launch Editor",
-
+"solution": {
+      "title": "Pre-Deployment Network Verification at ASIL-D Confidence Level",
+      "subtitle": "Design Phase From topology design to formal proof — CertiSen covers the full lifecycle of deterministic Ethernet networks."
+},
     "features": {
       "title": "Pre-Deployment Network Verification at ASIL-D Confidence Level",
       "subtitle": "Design Phase From topology design to formal proof — CertiSen covers the full lifecycle of deterministic Ethernet networks.",
