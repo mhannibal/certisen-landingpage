@@ -194,8 +194,7 @@ export default function Home() {
                {t('solution.title')}
             </h2>
             <h2 className="text-4xl md:text-4xl font-bold mb-4 text-primary-foreground">
-               {t('solution.subtitle')}
-
+            
             </h2>
           </div>
           <div className="max-w-8xl mx-auto">
@@ -225,6 +224,31 @@ export default function Home() {
               messagePlaceholder: t('contact.messagePlaceholder'),
             }}
           />
+        </section>
+
+        {/* Sponsors Section */}
+        <section className="container mx-auto px-4 py-16">
+          <div className="text-center mb-12">
+            <h2 className="text-2xl md:text-3xl font-bold mb-3 text-primary-foreground">
+              Financed By
+            </h2>
+       
+          </div>
+          <div className="flex flex-wrap justify-center items-center gap-8 md:gap-12 opacity-70 hover:opacity-100 transition-opacity">
+            {/* Placeholder sponsor logos - replace with actual logos */}
+            <div className="w-32 h-16 flex items-center justify-center  rounded-lg  border-primary-foreground/10 hover:border-primary-foreground/30 transition-colors">
+              <span className="text-primary-foreground/40 font-semibold text-sm">
+              <img src={'iss.png'} />
+              </span>
+            </div>
+            <div className="w-32 h-16 flex items-center justify-center  rounded-lg  border-primary-foreground/10 hover:border-primary-foreground/30 transition-colors">
+              <span className="text-primary-foreground/40 font-semibold text-sm">
+                            <img src={'inria.png'} />
+
+</span>
+            </div>
+            
+          </div>
         </section>
 
         {/* Footer */}

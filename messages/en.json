@@ -5,34 +5,34 @@
     "launchEditor": "Launch Editor",
 "solution": {
       "title": "Pre-Deployment Network Verification at ASIL-D Confidence Level",
-      "subtitle": "Design Phase From topology design to formal proof — CertiSen covers the full lifecycle of deterministic Ethernet networks."
+      "subtitle": "Design Phase From topology design to formal proof"
 },
     "features": {
-      "title": "Pre-Deployment Network Verification at ASIL-D Confidence Level",
-      "subtitle": "Design Phase From topology design to formal proof — CertiSen covers the full lifecycle of deterministic Ethernet networks.",
+      "title": "Design Phase From topology design to formal proof — CertiSen covers the full lifecycle of deterministic Ethernet networks.",
+      "subtitle": "ASIL-D Confidence Level",
       "visualDesign": {
-        "title": "Visual Network Design",
-        "description": "Drag-and-drop interface to build TSN network topologies with switches and end-stations."
+        "title": "Visual  TSN Network Design",
+        "description": "Drag-and-drop interface to build TSN network topologies with their configurations  & Real-time pre-certificattion analysis"
       },
       "realTimeSimulation": {
         "title": "A brick in the ecosystem",
         "description": "CertiSen complements existing tools by adding formal verification in the TSN design process."
       },
       "analytics": {
-        "title": "Analysis & Validation",
-        "description": "A pre-certificattion analysis "
+        "title": "OTA Continuous certification",
+        "description": "Enabling continuous certification after each over-the-air (OTA) update."
       },
       "security": {
         "title": "Formal Certification",
-        "description": "specify TSN protocols, prove TSN configuration correctness."
+        "description": "Specify TSN protocols, prove TSN configuration correctness."
       },
       "performance": {
         "title": "AI Optimisation",
         "description": "enabling AI-driven TSN configuration generation, backed by a light-weighted certifier for formal verification"
       },
       "export": {
-        "title": "Multi-Format Export",
-        "description": "Export to JSON, XML,YANG or YAML."
+        "title": "CyberSecurity",
+        "description": "Cyber security compliance for TSN networks."
       }
     },
 
