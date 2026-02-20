@@ -3,7 +3,7 @@ import { getTranslations } from 'next-intl/server';
 import Link from 'next/link';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Network, Zap, Shield, BarChart3, GitBranch, Play } from "lucide-react";
+import { ArrowRight, Network, Zap, Shield, BarChart3, GitBranch, Play, Building2, MapPin, Mail, Phone } from "lucide-react";
 import ParticlesBackground from "@/components/ParticlesBackground";
 import { LanguageSwitcher } from "@/components/LanguageSwitcher";
 import ContactForm from "@/components/ContactForm";
@@ -73,13 +73,12 @@ export default function Home() {
 
         {/* Language Switcher - Fixed Position */}
         <div className="fixed top-4 right-4 z-50">
-          <LanguageSwitcher />
         </div>
 
         {/* Hero Section */}
         <section className="relative container mx-auto px-4 py-20 overflow-hidden">
           <div className="relative z-10 flex flex-col items-center text-center space-y-8">
-            <img src="/logoDark2.png" alt="CertiSen Logo" width={150} height={150} />
+            <img src="/certisenlogo.png" alt="CertiSen Logo" width={150} height={150} />
 
             <h1 className="text-5xl md:text-7xl font-bold tracking-tight text-primary-foreground">
               {t('title')}
@@ -217,10 +216,10 @@ export default function Home() {
               send: t('contact.send'),
               sending: t('contact.sending'),
               success: t('contact.success'),
+              subjectPlaceholder: t('contact.subjectPlaceholder'),
               error: t('contact.error'),
               namePlaceholder: t('contact.namePlaceholder'),
               emailPlaceholder: t('contact.emailPlaceholder'),
-              subjectPlaceholder: t('contact.subjectPlaceholder'),
               messagePlaceholder: t('contact.messagePlaceholder'),
             }}
           />
@@ -230,7 +229,7 @@ export default function Home() {
         <section className="container mx-auto px-4 py-16">
           <div className="text-center mb-12">
             <h2 className="text-2xl md:text-3xl font-bold mb-3 text-primary-foreground">
-              Financed By
+              {t('sponsors.title')}
             </h2>
        
           </div>
@@ -244,6 +243,49 @@ export default function Home() {
 </span>
             </div>
             
+          </div>
+        </section>
+
+        {/* Address Section */}
+        <section className="container mx-auto px-4 py-16">
+          <div className="max-w-4xl mx-auto">
+            <div className="bg-primary-foreground/5 backdrop-blur-sm rounded-2xl p-8 md:p-12 border border-primary-foreground/10">
+              <h2 className="text-3xl font-bold mb-8 text-primary-foreground text-center">
+                {t('address.title')}
+              </h2>
+              <div className="grid md:grid-cols-2 gap-8">
+                <div className="space-y-6">
+                  
+                  <div className="flex gap-4">
+                    <div className="flex-shrink-0">
+                      <MapPin className="h-6 w-6 text-primary-foreground" />
+                    </div>
+                    <div>
+                      <h3 className="text-lg font-semibold text-primary-foreground mb-2">{t('address.location')}</h3>
+                      <p className="text-primary-foreground/80">
+                        655 Av. de l'Europe, 38330 Montbonnot-Saint-Martin<br />
+                        Grenoble<br />
+                        France
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                <div className="space-y-6">
+                  <div className="flex gap-4">
+                    <div className="flex-shrink-0">
+                      <Mail className="h-6 w-6 text-primary-foreground" />
+                    </div>
+                    <div>
+                      <h3 className="text-lg font-semibold text-primary-foreground mb-2">{t('address.email')}</h3>
+                      <p className="text-primary-foreground/80">
+                        contact@certisen.com
+                      </p>
+                    </div>
+                  </div>
+                  
+                </div>
+              </div>
+            </div>
           </div>
         </section>
 

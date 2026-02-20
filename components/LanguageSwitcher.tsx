@@ -18,8 +18,12 @@ export function LanguageSwitcher() {
   const router = useRouter();
   const pathname = usePathname();
 
+
   const handleLocaleChange = (newLocale: Locale) => {
-    router.replace(pathname, { locale: newLocale });
+     console.log('pathname', pathname.concat(locale));
+    console.log('locale', locale);
+    
+    router.replace(pathname.concat(locale), { locale: newLocale });
   };
 
   return (

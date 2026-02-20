@@ -3,33 +3,36 @@
     "title": "Certification pour les Réseaux Sensibles au Temps",
     "description": "Réseaux TSN Certifiés et Optimisés par IA pour Systèmes Critiques de Sécurité",
     "launchEditor": "Lancer l'Éditeur",
-
-    "features": {
+    "solution": {
       "title": "Vérification de Réseau Pré-Déploiement au Niveau de Confiance ASIL-D",
-      "subtitle": "Phase de Conception De la conception de la topologie à la preuve formelle — CertiSen couvre l'intégralité du cycle de vie des réseaux Ethernet déterministes.",
+      "subtitle": "Phase de Conception De la conception de la topologie à la preuve formelle"
+    },
+    "features": {
+      "title": "Phase de Conception De la conception de la topologie à la preuve formelle — CertiSen couvre l'intégralité du cycle de vie des réseaux Ethernet déterministes.",
+      "subtitle": "Niveau de Confiance ASIL-D",
       "visualDesign": {
-        "title": "Conception Visuelle du Réseau",
-        "description": "Interface glisser-déposer pour construire des topologies réseau TSN avec commutateurs et stations."
+        "title": "Conception Visuelle de Réseau TSN",
+        "description": "Interface glisser-déposer pour construire des topologies réseau TSN avec leurs configurations & Analyse de pré-certification en temps réel"
       },
       "realTimeSimulation": {
         "title": "Une Brique dans l'Écosystème",
         "description": "CertiSen complète les outils existants en ajoutant la vérification formelle dans le processus de conception TSN."
       },
       "analytics": {
-        "title": "Analyse & Validation",
-        "description": "Une analyse de pré-certification"
+        "title": "Certification Continue OTA",
+        "description": "Permettant la certification continue après chaque mise à jour OTA (over-the-air)."
       },
       "security": {
         "title": "Certification Formelle",
-        "description": "spécifier les protocoles TSN, prouver la correction de la configuration TSN."
+        "description": "Spécifier les protocoles TSN, prouver la correction de la configuration TSN."
       },
       "performance": {
         "title": "Optimisation par IA",
-        "description": "permettant la génération de configuration TSN pilotée par IA, soutenue par un certificateur léger pour la vérification formelle"
+        "description": "Permettant la génération de configuration TSN pilotée par IA, soutenue par un certificateur léger pour la vérification formelle"
       },
       "export": {
-        "title": "Export Multi-Format",
-        "description": "Exportez vers JSON, XML, YANG ou YAML."
+        "title": "Cybersécurité",
+        "description": "Conformité en matière de cybersécurité pour les réseaux TSN."
       }
     },
 
@@ -61,6 +64,23 @@
       "emailPlaceholder": "vous@exemple.com",
       "subjectPlaceholder": "Comment pouvons-nous vous aider ?",
       "messagePlaceholder": "Parlez-nous davantage de votre question ou projet…"
+    },
+
+    "sponsors": {
+      "title": "Financé Par"
+    },
+
+    "address": {
+      "title": "Notre Emplacement",
+      "company": "Entreprise",
+      "companyName": "CertiSen",
+      "location": "Adresse",
+      "street": "123 Avenue de l'Innovation",
+      "city": "75001 Paris",
+      "country": "France",
+      "contact": "Coordonnées",
+      "email": "E-mail",
+      "phone": "Téléphone"
     }
   }
 }

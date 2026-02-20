@@ -4,9 +4,11 @@ import type { NextRequest } from 'next/server';
 
 const handleI18nRouting = createMiddleware(routing);
 
+
 export default function proxy(request: NextRequest) {
   return handleI18nRouting(request);
 }
+
 
 export const config = {
   matcher: [

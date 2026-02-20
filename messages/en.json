@@ -64,6 +64,23 @@
       "emailPlaceholder": "you@example.com",
       "subjectPlaceholder": "How can we help?",
       "messagePlaceholder": "Tell us more about your question or project…"
+    },
+
+    "sponsors": {
+      "title": "Financed By"
+    },
+
+    "address": {
+      "title": "Our Location",
+      "company": "Company",
+      "companyName": "CertiSen",
+      "location": "Address",
+      "street": "123 Innovation Avenue",
+      "city": "75001 Paris",
+      "country": "France",
+      "contact": "Contact Information",
+      "email": "Email",
+      "phone": "Phone"
     }
   }
 }

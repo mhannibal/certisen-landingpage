@@ -3,21 +3,24 @@
     "title": "时间敏感网络认证",
     "description": "为安全关键系统提供经过认证、AI优化的TSN网络",
     "launchEditor": "启动编辑器",
-
-    "features": {
+    "solution": {
       "title": "ASIL-D置信度级别的部署前网络验证",
-      "subtitle": "设计阶段 从拓扑设计到形式化证明——CertiSen涵盖确定性以太网网络的完整生命周期。",
+      "subtitle": "设计阶段 从拓扑设计到形式化证明"
+    },
+    "features": {
+      "title": "设计阶段 从拓扑设计到形式化证明 — CertiSen涵盖确定性以太网网络的完整生命周期。",
+      "subtitle": "ASIL-D置信度级别",
       "visualDesign": {
-        "title": "可视化网络设计",
-        "description": "拖放式界面，用于构建带有交换机和终端站的TSN网络拓扑。"
+        "title": "可视化TSN网络设计",
+        "description": "拖放式界面，用于构建TSN网络拓扑及其配置 & 实时预认证分析"
       },
       "realTimeSimulation": {
         "title": "生态系统中的一块砖",
         "description": "CertiSen通过在TSN设计过程中添加形式化验证来补充现有工具。"
       },
       "analytics": {
-        "title": "分析与验证",
-        "description": "预认证分析"
+        "title": "OTA持续认证",
+        "description": "在每次空中下载(OTA)更新后实现持续认证。"
       },
       "security": {
         "title": "形式化认证",
@@ -28,8 +31,8 @@
         "description": "支持AI驱动的TSN配置生成，并由轻量级认证器支持形式化验证"
       },
       "export": {
-        "title": "多格式导出",
-        "description": "导出为JSON、XML、YANG或YAML。"
+        "title": "网络安全",
+        "description": "TSN网络的网络安全合规性。"
       }
     },
 
@@ -61,6 +64,23 @@
       "emailPlaceholder": "you@example.com",
       "subjectPlaceholder": "我们能帮您什么？",
       "messagePlaceholder": "告诉我们更多关于您的问题或项目…"
+    },
+
+    "sponsors": {
+      "title": "资助方"
+    },
+
+    "address": {
+      "title": "我们的位置",
+      "company": "公司",
+      "companyName": "CertiSen",
+      "location": "地址",
+      "street": "创新大道123号",
+      "city": "75001 巴黎",
+      "country": "法国",
+      "contact": "联系方式",
+      "email": "电子邮件",
+      "phone": "电话"
     }
   }
 }
