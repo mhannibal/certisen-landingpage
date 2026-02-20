@@ -8,6 +8,7 @@ import ParticlesBackground from "@/components/ParticlesBackground";
 import { LanguageSwitcher } from "@/components/LanguageSwitcher";
 import ContactForm from "@/components/ContactForm";
 import type { Metadata } from 'next';
+import AutoAnimation from '@/components/autoAnimation';
 
 export async function generateMetadata({ params }: { params: { local: string } }): Promise<Metadata> {
   const t = await getTranslations('homePage');
@@ -28,6 +29,8 @@ export async function generateMetadata({ params }: { params: { local: string } }
 
 export default function Home() {
   const t = useTranslations('homePage');
+  
+
   
   const jsonLd = {
     '@context': 'https://schema.org',
@@ -86,6 +89,19 @@ export default function Home() {
            
         </div>
       </section>
+
+
+
+ <section className="relative container mx-auto px-4 py-20 ">
+ 
+            <AutoAnimation />
+ 
+    
+      </section>
+
+
+            
+
 
       {/* Features Section */}
       <section className="container mx-auto px-4 py-20">
