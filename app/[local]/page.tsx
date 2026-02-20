@@ -79,7 +79,7 @@ export default function Home() {
         {/* Hero Section */}
         <section className="relative container mx-auto px-4 py-20 overflow-hidden">
           <div className="relative z-10 flex flex-col items-center text-center space-y-8">
-            <img src="/logoDark2.svg" alt="CertiSen Logo" width={150} height={150} />
+            <img src="/logoDark2.png" alt="CertiSen Logo" width={150} height={150} />
 
             <h1 className="text-5xl md:text-7xl font-bold tracking-tight text-primary-foreground">
               {t('title')}
