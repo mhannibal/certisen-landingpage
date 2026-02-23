@@ -9,7 +9,6 @@ import { LanguageSwitcher } from "@/components/LanguageSwitcher";
 import ContactForm from "@/components/ContactForm";
 import type { Metadata } from 'next';
 import AutoAnimation from '@/components/autoAnimation';
-import SolutionDiagram from '@/components/SolutionDiagram';
 import TSNNetworkDemoWrapper from '@/components/TSNNetworkDemoWrapper';
 import Image from 'next/image';
 
