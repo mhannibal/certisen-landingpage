@@ -8,8 +8,8 @@
       "subtitle": "Design Phase From topology design to formal proof"
 },
     "features": {
-      "title": "Design Phase From topology design to formal proof — CertiSen covers the full lifecycle of deterministic Ethernet networks.",
-      "subtitle": "ASIL-D Confidence Level",
+      "title": "From design to deployment, CertiSen ensures lifecycle integrity for ASIL-D–level TSN networks",
+      "subtitle": " Unifying deterministic performance and built-in cybersecurity protection.",
       "visualDesign": {
         "title": "Visual  TSN Network Design",
         "description": "Drag-and-drop interface to build TSN network topologies with their configurations  & Real-time pre-certificattion analysis"

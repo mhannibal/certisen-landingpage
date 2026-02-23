@@ -8,8 +8,8 @@
       "subtitle": "Phase de Conception De la conception de la topologie à la preuve formelle"
     },
     "features": {
-      "title": "Phase de Conception De la conception de la topologie à la preuve formelle — CertiSen couvre l'intégralité du cycle de vie des réseaux Ethernet déterministes.",
-      "subtitle": "Niveau de Confiance ASIL-D",
+      "title": "De la conception au déploiement, CertiSen garantit l'intégrité du cycle de vie pour les réseaux TSN de niveau ASIL-D",
+      "subtitle": "Unification de la performance déterministe et de la protection cybersécurité intégrée.",
       "visualDesign": {
         "title": "Conception Visuelle de Réseau TSN",
         "description": "Interface glisser-déposer pour construire des topologies réseau TSN avec leurs configurations & Analyse de pré-certification en temps réel"
@@ -35,20 +35,17 @@
         "description": "Conformité en matière de cybersécurité pour les réseaux TSN."
       }
     },
-
     "cta": {
       "title": "Prêt à Certifier Votre Réseau ?",
       "description": "Rejoignez la communauté grandissante d'ingénieurs TSN, d'intégrateurs systèmes et de professionnels de l'automobile qui font confiance à CertiSen pour la certification de réseaux critiques de sécurité.",
       "button": "Commencer la Conception Maintenant"
     },
-
     "footer": {
       "copyright": "© 2026 CertiSen. Tous droits réservés.",
       "documentation": "Documentation",
       "support": "Support",
       "privacy": "Politique de Confidentialité"
     },
-
     "contact": {
       "title": "Contactez-Nous",
       "subtitle": "Vous avez une question sur CertiSen ? Nous serions ravis de vous entendre.",
@@ -65,11 +62,9 @@
       "subjectPlaceholder": "Comment pouvons-nous vous aider ?",
       "messagePlaceholder": "Parlez-nous davantage de votre question ou projet…"
     },
-
     "sponsors": {
       "title": "Financé Par"
     },
-
     "address": {
       "title": "Notre Emplacement",
       "company": "Entreprise",

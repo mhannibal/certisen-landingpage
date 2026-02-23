@@ -8,8 +8,8 @@
       "subtitle": "设计阶段 从拓扑设计到形式化证明"
     },
     "features": {
-      "title": "设计阶段 从拓扑设计到形式化证明 — CertiSen涵盖确定性以太网网络的完整生命周期。",
-      "subtitle": "ASIL-D置信度级别",
+      "title": "从设计到部署，CertiSen 确保 ASIL-D 级 TSN 网络的生命周期完整性",
+      "subtitle": "统一确定性性能和内置网络安全防护。",
       "visualDesign": {
         "title": "可视化TSN网络设计",
         "description": "拖放式界面，用于构建TSN网络拓扑及其配置 & 实时预认证分析"
@@ -35,20 +35,17 @@
         "description": "TSN网络的网络安全合规性。"
       }
     },
-
     "cta": {
       "title": "准备好认证您的网络了吗？",
       "description": "加入不断壮大的TSN工程师、系统集成商和汽车专业人士社区，他们信任CertiSen进行安全关键网络认证。",
       "button": "立即开始设计"
     },
-
     "footer": {
       "copyright": "© 2026 CertiSen。保留所有权利。",
       "documentation": "文档",
       "support": "支持",
       "privacy": "隐私政策"
     },
-
     "contact": {
       "title": "联系我们",
       "subtitle": "对CertiSen有疑问？我们很乐意听取您的意见。",
@@ -65,11 +62,9 @@
       "subjectPlaceholder": "我们能帮您什么？",
       "messagePlaceholder": "告诉我们更多关于您的问题或项目…"
     },
-
     "sponsors": {
       "title": "资助方"
     },
-
     "address": {
       "title": "我们的位置",
       "company": "公司",

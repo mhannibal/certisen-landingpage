@@ -398,7 +398,7 @@ export default function Home() {
             </h2>
        
           </div>
-          <div className="flex flex-wrap justify-center items-center gap-8 md:gap-12 opacity-70 hover:opacity-100 transition-opacity">
+          <div className="flex flex-wrap justify-center items-center gap-8 md:gap-12 opacity-100 hover:opacity-70 transition-opacity">
             {/* Placeholder sponsor logos - replace with actual logos */}
             
             <div className="w-32 h-16 flex items-center justify-center bg-white p-4 rounded-lg  border-primary-foreground/10 hover:border-primary-foreground/30 transition-colors">
