@@ -351,7 +351,7 @@ export default function Home() {
 
 
         {/* TSN Network Editor Demo */}
-        <section className="container mx-auto px-2 py-40">
+        <section className="container mx-auto px-2 py-20 md:py-40  md:min-h-[800px]">
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-3xl font-semibold mb-4 text-primary-foreground">
                {t('solution.title')}

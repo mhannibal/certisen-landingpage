@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import {
   ReactFlow,
   Background,
@@ -19,22 +19,23 @@ import { Monitor, ShieldCheck, ClipboardCheck, Car, Plane, Factory } from 'lucid
 
 // Custom node component for Existing Tools
 function ExistingToolsNode({ data }: any) {
+  const isMobile = data.isMobile;
   return (
     <div className="relative px-6 py-4 bg-slate-800 border-2 border-slate-100 rounded-lg shadow-xl min-w-[200px]">
-      <Handle 
-        type="target" 
-        position={Position.Left} 
-        style={{ background: '#eab308', width: 10, height: 10, left: -5 }} 
+      <Handle
+        type="target"
+        position={isMobile ? Position.Top : Position.Left}
+        style={{ background: '#eab308', width: 10, height: 10, [isMobile ? 'top' : 'left']: -5 }}
       />
-      <Handle 
-        type="source" 
-        position={Position.Right} 
-        style={{ background: '#eab308', width: 10, height: 10, right: -5 }} 
+      <Handle
+        type="source"
+        position={isMobile ? Position.Bottom : Position.Right}
+        style={{ background: '#eab308', width: 10, height: 10, [isMobile ? 'bottom' : 'right']: -5 }}
       />
       <div className="flex flex-col items-center gap-3 mb-2">
-        
+
         <Monitor className="w-8 h-8 text-blue-400" />
-        
+
         <h3 className="text-lg font-bold text-white">{data.label}</h3>
       </div>
       <p className="text-sm text-slate-300">{data.description}</p>
@@ -44,24 +45,25 @@ function ExistingToolsNode({ data }: any) {
 
 // Custom node component for Certisen Core
 function CertisenCoreNode({ data }: any) {
+  const isMobile = data.isMobile;
   return (
     <div className="relative px-6 py-4 bg-slate-800 border-2 border-slate-100  rounded-lg shadow-xl min-w-[220px]">
-      <Handle 
-        type="target" 
-        position={Position.Left} 
-        style={{ background: '#eab308', width: 10, height: 10, left: -5 }} 
+      <Handle
+        type="target"
+        position={isMobile ? Position.Top : Position.Left}
+        style={{ background: '#eab308', width: 10, height: 10, [isMobile ? 'top' : 'left']: -5 }}
       />
-      <Handle 
-        type="source" 
-        position={Position.Right} 
-        id="passed" 
-        style={{ background: '#22c55e', width: 10, height: 10, right: -5, top: '50%' }} 
+      <Handle
+        type="source"
+        position={isMobile ? Position.Bottom : Position.Right}
+        id="passed"
+        style={{ background: '#22c55e', width: 10, height: 10, [isMobile ? 'bottom' : 'right']: -5, [isMobile ? 'left' : 'top']: '50%' }}
       />
-      <Handle 
-        type="source" 
-        position={Position.Top} 
-        id="failed" 
-        style={{ background: '#ef4444', width: 10, height: 10, left: -5, bottom: '30%' }} 
+      <Handle
+        type="source"
+        position={isMobile ? Position.Left : Position.Top}
+        id="failed"
+        style={{ background: '#ef4444', width: 10, height: 10, [isMobile ? 'left' : 'top']: -5, [isMobile ? 'top' : 'right']: '30%' }}
       />
       <div className="flex flex-col items-center gap-3 mb-2">
         <div className="relative">
@@ -77,17 +79,18 @@ function CertisenCoreNode({ data }: any) {
 
 // Custom node component for Validation
 function ValidationNode({ data }: any) {
+  const isMobile = data.isMobile;
   return (
     <div className="relative px-6 py-4 bg-green-900/40 border-2 border-green-500 rounded-lg shadow-xl min-w-[200px]">
-      <Handle 
-        type="target" 
-        position={Position.Left} 
-        style={{ background: '#22c55e', width: 10, height: 10, left: -5 }} 
+      <Handle
+        type="target"
+        position={isMobile ? Position.Top : Position.Left}
+        style={{ background: '#22c55e', width: 10, height: 10, [isMobile ? 'top' : 'left']: -5 }}
       />
-      <Handle 
-        type="source" 
-        position={Position.Right} 
-        style={{ background: '#3b82f6', width: 10, height: 10, right: -5 }} 
+      <Handle
+        type="source"
+        position={isMobile ? Position.Bottom : Position.Right}
+        style={{ background: '#3b82f6', width: 10, height: 10, [isMobile ? 'bottom' : 'right']: -5 }}
       />
       <div className="flex flex-col  items-center gap-3 mb-2">
         <div className="relative">
@@ -102,16 +105,15 @@ function ValidationNode({ data }: any) {
 
 // Custom node component for Application domains
 function ApplicationNode({ data }: any) {
-  const IconComponent = data.icon;
+  const isMobile = data.isMobile;
   return (
     <div className="relative px-6 py-4 bg-blue-900/40 border-2 border-blue-500 rounded-lg shadow-xl min-w-[180px]">
-      <Handle 
-        type="target" 
-        position={Position.Left} 
-        style={{ background: '#3b82f6', width: 10, height: 10, left: -5 }} 
+      <Handle
+        type="target"
+        position={isMobile ? Position.Top : Position.Left}
+        style={{ background: '#3b82f6', width: 10, height: 10, [isMobile ? 'top' : 'left']: -5 }}
       />
       <div className="flex flex-col items-center gap-3 mb-2">
-        <IconComponent className="w-8 h-8 text-blue-300" />
         <h3 className="text-base font-bold text-white">{data.label}</h3>
       </div>
     </div>
@@ -124,60 +126,129 @@ const nodeTypes: NodeTypes = {
   validation: ValidationNode,
   application: ApplicationNode,
 };
-
-const initialNodes: Node[] = [
+// Desktop layout (horizontal)
+const desktopNodes: Node[] = [
   {
     id: 'existing-tools',
     type: 'existingTools',
-    data: { 
+    data: {
       label: 'Existing Tools',
-      description: 'Modeling Performance Analysis'
+      description: 'Modeling Performance Analysis',
+      isMobile: false,
     },
     position: { x: 50, y: 100 },
   },
   {
     id: 'certisen-core',
     type: 'certisenCore',
-    data: { 
+    data: {
       label: 'Certisen Core',
-      description: 'EAL7+/ASIL-D Assurance Level'
+      description: 'EAL7+/ASIL-D Assurance Level',
+      isMobile: false,
     },
     position: { x: 450, y: 100 },
   },
   {
     id: 'validation',
     type: 'validation',
-    data: { 
+    data: {
       label: 'Validation',
+      isMobile: false,
     },
     position: { x: 780, y: 100 },
   },
   {
     id: 'automotive',
     type: 'application',
-    data: { 
+    data: {
       label: 'Automotive',
       icon: Car,
+      isMobile: false,
     },
     position: { x: 1050, y: 0 },
   },
   {
     id: 'aerospace',
     type: 'application',
-    data: { 
+    data: {
       label: 'Aerospace',
       icon: Plane,
+      isMobile: false,
     },
     position: { x: 1050, y: 120 },
   },
   {
     id: 'industry',
     type: 'application',
-    data: { 
+    data: {
       label: 'Industry 4.0',
       icon: Factory,
+      isMobile: false,
     },
     position: { x: 1050, y: 240 },
+  },
+];
+
+// Mobile layout (vertical)
+const mobileNodes: Node[] = [
+  {
+    id: 'existing-tools',
+    type: 'existingTools',
+    data: {
+      label: 'Existing Tools',
+      description: 'Modeling Performance Analysis',
+      isMobile: true,
+    },
+    position: { x: 100, y: 50 },
+  },
+  {
+    id: 'certisen-core',
+    type: 'certisenCore',
+    data: {
+      label: 'Certisen Core',
+      description: 'EAL7+/ASIL-D Assurance Level',
+      isMobile: true,
+    },
+    position: { x: 100, y: 250 },
+  },
+  {
+    id: 'validation',
+    type: 'validation',
+    data: {
+      label: 'Validation',
+      isMobile: true,
+    },
+    position: { x: 100, y: 450 },
+  },
+  {
+    id: 'automotive',
+    type: 'application',
+    data: {
+      label: 'Automotive',
+      icon: Car,
+      isMobile: true,
+    },
+    position: { x: 30, y: 650 },
+  },
+  {
+    id: 'aerospace',
+    type: 'application',
+    data: {
+      label: 'Aerospace',
+      icon: Plane,
+      isMobile: true,
+    },
+    position: { x: 150, y: 750 },
+  },
+  {
+    id: 'industry',
+    type: 'application',
+    data: {
+      label: 'Industry 4.0',
+      icon: Factory,
+      isMobile: true,
+    },
+    position: { x: 250, y: 650 },
   },
 ];
 
@@ -253,8 +324,27 @@ const initialEdges: Edge[] = [
 ];
 
 export default function TSNNetworkDemo() {
-  const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
+  const [isMobile, setIsMobile] = useState(false);
+
+  // Detect screen size
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
+  const [nodes, setNodes, onNodesChange] = useNodesState(isMobile ? mobileNodes : desktopNodes);
   const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
+
+  // Update nodes when screen size changes
+  useEffect(() => {
+    setNodes(isMobile ? mobileNodes : desktopNodes);
+  }, [isMobile, setNodes]);
 
   return (
     <div className="w-full h-[600px] rounded-lg  overflow-hidden">
@@ -270,20 +360,17 @@ export default function TSNNetworkDemo() {
         maxZoom={1}
         attributionPosition="bottom-left"
         proOptions={{ hideAttribution: true }}
-  
-
-
-          nodesDraggable={false}
-  nodesConnectable={false}
-  elementsSelectable={false}
-  panOnDrag={false}
-  zoomOnScroll={false}
-  zoomOnPinch={false}
-  zoomOnDoubleClick={false}
-
+        nodesDraggable={false}
+        nodesConnectable={false}
+        elementsSelectable={false}
+        panOnDrag={false}
+        zoomOnScroll={false}
+        zoomOnPinch={false}
+        zoomOnDoubleClick={false}
+        preventScrolling={false}
       >
         <Background color="#3a5287" gap={1} />
-       </ReactFlow>
+      </ReactFlow>
     </div>
   );
 }
