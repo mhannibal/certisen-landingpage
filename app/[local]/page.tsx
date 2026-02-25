@@ -240,7 +240,7 @@ export default function Home() {
         </div>
 
         {/* Hero Section */}
-        <section className="relative container mx-auto px-4 py-20 overflow-hidden">
+        <section className="relative container mx-auto px-4 py-20  overflow-hidden">
           <div className="relative z-10 flex flex-col items-center text-center space-y-8">
             <Image src="/certisenlogo.png" alt="CertiSen Logo" width={150} height={150} priority />
     
@@ -258,7 +258,7 @@ export default function Home() {
 
 
 
-        <section className="relative  container mx-auto px-4 py-20 ">
+        <section className="relative  container mx-auto px-4 py-20  ">
 
           <AutoAnimation />
 
@@ -397,16 +397,28 @@ export default function Home() {
             </h2>
        
           </div>
-          <div className="flex flex-wrap justify-center items-center gap-8 md:gap-12 opacity-100 hover:opacity-70 transition-opacity">
+          <div className="flex flex-wrap justify-center items-center gap-8 md:gap-12 opacity-100  transition-opacity">
             {/* Placeholder sponsor logos - replace with actual logos */}
             
-            <div className="w-32 h-16 flex items-center justify-center bg-white p-4 rounded-lg  border-primary-foreground/10 hover:border-primary-foreground/30 transition-colors">
+            <div className="w-32 h-16 flex items-center justify-center bg-white p-4 rounded-lg hover:border-blue-500  border-primary-foreground/10 hover:border-primary-foreground/30 transition-colors">
+              <a href="https://www.inria.fr/en" target="_blank" rel="noopener noreferrer">
               <Image
                 src={'/inria.png'}
                 alt='INRIA Logo - CertiSen Research Partner and Founder'
                 width={200}
                 height={200}
               />
+              </a>
+            </div>
+            <div className="w-32 h-16 flex items-center justify-center bg-white p-4 rounded-lg  border-primary-foreground/10 hover:border-primary-foreground/30 transition-colors">
+            <a href="https://www.inriastartupstudio.fr/en/" target="_blank" rel="noopener noreferrer">
+              <Image
+                src={'/iss.png'}
+                alt='ISS Logo - CertiSen Research Partner and Founder'
+                width={200}
+                height={200}
+              />
+              </a>
             </div>
             
           </div>
