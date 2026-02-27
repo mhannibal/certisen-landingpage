@@ -191,7 +191,7 @@ export default function Home() {
     },
     contactPoint: {
       '@type': 'ContactPoint',
-      email: 'contact@certisen.com',
+      email: 'certisen@inria.fr',
       contactType: 'Customer Service',
       availableLanguage: ['English', 'French', 'Chinese'],
     },
@@ -455,8 +455,8 @@ export default function Home() {
                     </div>
                     <div>
                       <h3 className="text-lg font-semibold text-primary-foreground mb-2">{t('address.email')}</h3>
-                      <a href="mailto:contact@certisen.com" className="text-primary-foreground/80 hover:text-primary-foreground transition-colors">
-                        contact@certisen.com
+                      <a href="mailto:certisen@inria.fr" className="text-primary-foreground/80 hover:text-primary-foreground transition-colors">
+                        certisen@inria.fr
                       </a>
                     </div>
                   </div>
