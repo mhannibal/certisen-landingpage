@@ -18,12 +18,14 @@ export function LanguageSwitcher() {
   const router = useRouter();
   const pathname = usePathname();
 
-
   const handleLocaleChange = (newLocale: Locale) => {
-     console.log('pathname', pathname.concat(locale));
-    console.log('locale', locale);
+    // Set cookie and refresh
+    document.cookie = `NEXT_LOCALE=${newLocale}; path=/; max-age=31536000; SameSite=Lax`;
     
-    router.replace(pathname.concat(locale), { locale: newLocale });
+    React.startTransition(() => {
+      router.replace(pathname, { locale: newLocale });
+      router.refresh();
+    });
   };
 
   return (
