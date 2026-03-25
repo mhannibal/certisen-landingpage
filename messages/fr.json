@@ -1,7 +1,8 @@
 {
   "homePage": {
     "title": "Certification pour les Réseaux TSN",
-    "description": "Réseaux TSN pour Systèmes Critiques\n.IA (génération/optimisation) + méthodes formelles (certification)",
+    "description": "Réseaux TSN pour Systèmes Critiques.",
+    "subdescription": "IA (génération/optimisation) + méthodes formelles (certification)",
     "launchEditor": "Lancer l'Éditeur",
     "solution": {
       "title": "Vérification de Réseau Pré-Déploiement au Niveau de Confiance ASIL-D",
@@ -44,7 +45,8 @@
       "copyright": "© 2026 CertiSen. Tous droits réservés.",
       "documentation": "Documentation",
       "support": "Support",
-      "privacy": "Politique de Confidentialité"
+      "privacy": "Politique de Confidentialité",
+      "linkedin": "LinkedIn"
     },
     "contact": {
       "title": "Contactez-Nous",
@@ -75,7 +77,8 @@
       "country": "France",
       "contact": "Coordonnées",
       "email": "E-mail",
-      "phone": "Téléphone"
+      "phone": "Téléphone",
+      "linkedin": "LinkedIn"
     }
   }
 }

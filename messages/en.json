@@ -1,7 +1,9 @@
 {
   "homePage": {
     "title": "Certification for Time-Sensitive Networking",
-    "description": "Certified, AI-Optimized TSN Networks for Safety-Critical Systems. AI (generation/optimization) + formal methods (certification)",
+    "description": "TSN Networks for Safety-Critical Systems.",
+    "subdescription": "AI (generation/optimization) + formal methods (certification)",
+    
     "launchEditor": "Launch Editor",
 "solution": {
       "title": "Pre-Deployment Network Verification at ASIL-D Confidence Level",
@@ -46,7 +48,8 @@
       "copyright": "© 2026 CertiSen. All rights reserved.",
       "documentation": "Documentation",
       "support": "Support",
-      "privacy": "Privacy Policy"
+      "privacy": "Privacy Policy",
+      "linkedin": "LinkedIn"
     },
 
     "contact": {
@@ -80,7 +83,8 @@
       "country": "France",
       "contact": "Contact Information",
       "email": "Email",
-      "phone": "Phone"
+      "phone": "Phone",
+      "linkedin": "LinkedIn"
     }
   }
 }

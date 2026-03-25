@@ -1,7 +1,8 @@
 {
   "homePage": {
     "title": "时间敏感网络认证",
-    "description": "用于关键人工智能系统的 TSN 网络（生成/优化）+ 形式化方法（认证）",
+    "description": "用于安全关键系统的 TSN 网络。",
+    "subdescription": "AI（生成/优化）+ 形式化方法（认证）",
     "launchEditor": "启动编辑器",
     "solution": {
       "title": "ASIL-D置信度级别的部署前网络验证",
@@ -44,7 +45,8 @@
       "copyright": "© 2026 CertiSen。保留所有权利。",
       "documentation": "文档",
       "support": "支持",
-      "privacy": "隐私政策"
+      "privacy": "隐私政策",
+      "linkedin": "领英"
     },
     "contact": {
       "title": "联系我们",
@@ -75,7 +77,8 @@
       "country": "法国",
       "contact": "联系方式",
       "email": "电子邮件",
-      "phone": "电话"
+      "phone": "电话",
+      "linkedin": "领英"
     }
   }
 }
