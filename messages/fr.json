@@ -1,7 +1,7 @@
 {
   "homePage": {
     "title": "Certification pour les Réseaux TSN",
-    "description": "Réseaux TSN Certifiés et Optimisés par IA pour Systèmes Critiques de Sécurité",
+    "description": "Réseaux TSN pour Systèmes Critiques\n.IA (génération/optimisation) + méthodes formelles (certification)",
     "launchEditor": "Lancer l'Éditeur",
     "solution": {
       "title": "Vérification de Réseau Pré-Déploiement au Niveau de Confiance ASIL-D",
@@ -15,7 +15,7 @@
         "description": "Interface glisser-déposer pour construire des topologies réseau TSN avec leurs configurations & Analyse de pré-certification en temps réel"
       },
       "realTimeSimulation": {
-        "title": "Une Brique dans l'Écosystème",
+        "title": "Un maillon fort de l’écosystème",
         "description": "CertiSen complète les outils existants en ajoutant la vérification formelle dans le processus de conception TSN."
       },
       "analytics": {

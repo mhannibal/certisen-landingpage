@@ -249,7 +249,7 @@ export default function Home() {
               {t('title')}
             </h1>
 
-            <p className="text-xl text-primary-foreground/80 max-w-2xl">
+            <p className="text-xl text-primary-foreground/80 max-w-5xl">
               {t('description')}
             </p>
 

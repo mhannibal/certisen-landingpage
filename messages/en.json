@@ -1,7 +1,7 @@
 {
   "homePage": {
     "title": "Certification for Time-Sensitive Networking",
-    "description": "Certified, AI-Optimized TSN Networks for Safety-Critical Systems",
+    "description": "Certified, AI-Optimized TSN Networks for Safety-Critical Systems. AI (generation/optimization) + formal methods (certification)",
     "launchEditor": "Launch Editor",
 "solution": {
       "title": "Pre-Deployment Network Verification at ASIL-D Confidence Level",
@@ -15,7 +15,7 @@
         "description": "Drag-and-drop interface to build TSN network topologies with their configurations  & Real-time pre-certificattion analysis"
       },
       "realTimeSimulation": {
-        "title": "A brick in the ecosystem",
+        "title": "A strong foundation for the ecosystem",
         "description": "CertiSen complements existing tools by adding formal verification in the TSN design process."
       },
       "analytics": {
