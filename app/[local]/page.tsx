@@ -10,6 +10,7 @@ import ContactForm from "@/components/ContactForm";
 import type { Metadata } from 'next';
 import AutoAnimation from '@/components/autoAnimation';
 import TSNNetworkDemoWrapper from '@/components/TSNNetworkDemoWrapper';
+import { GlowCapture } from '@/components/GlowCapture';
 import Image from 'next/image';
 
 export async function generateMetadata({ params }: { params: Promise<{ local: string }> }): Promise<Metadata> {
@@ -249,12 +250,12 @@ export default function Home() {
               {t('title')}
             </h1>
 
-            <p className="text-xl text-primary-foreground/80 max-w-5xl">
+            <h1 className="text-xl text-primary-foreground/80 max-w-5xl">
               {t('description')}
             <p className="text-lg text-primary-foreground/80 max-w-5xl">
               {t('subdescription')}
             </p>
-            </p>
+            </h1>
           </div>
         </section>
 
@@ -285,6 +286,7 @@ export default function Home() {
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
 
 
+            <GlowCapture>
             <Card className="border-2 hover:border-primary-foreground/50 transition-colors bg-primary-foreground/10 backdrop-blur">
               <CardHeader>
                 <Shield className="w-10 h-10 text-primary-foreground mb-2" />
@@ -294,7 +296,9 @@ export default function Home() {
                 </CardDescription>
               </CardHeader>
             </Card>
+            </GlowCapture>
 
+            <GlowCapture>
             <Card className="border-2 hover:border-primary-foreground/50 transition-colors bg-primary-foreground/10 backdrop-blur">
               <CardHeader>
                 <Network className="w-10 h-10 text-primary-foreground mb-2" />
@@ -304,7 +308,9 @@ export default function Home() {
                 </CardDescription>
               </CardHeader>
             </Card>
+            </GlowCapture>
 
+            <GlowCapture>
             <Card className="border-2 hover:border-primary-foreground/50 transition-colors bg-primary-foreground/10 backdrop-blur">
               <CardHeader>
                 <BarChart3 className="w-10 h-10 text-primary-foreground mb-2" />
@@ -314,7 +320,9 @@ export default function Home() {
                 </CardDescription>
               </CardHeader>
             </Card>
+            </GlowCapture>
 
+            <GlowCapture>
             <Card className="border-2 hover:border-primary-foreground/50 transition-colors bg-primary-foreground/10 backdrop-blur">
               <CardHeader>
                 <GitBranch className="w-10 h-10 text-primary-foreground mb-2" />
@@ -324,10 +332,12 @@ export default function Home() {
                 </CardDescription>
               </CardHeader>
             </Card>
+            </GlowCapture>
 
 
 
 
+            <GlowCapture>
             <Card className="border-2 hover:border-primary-foreground/50 transition-colors bg-primary-foreground/10 backdrop-blur">
               <CardHeader>
                 <Zap className="w-10 h-10 text-primary-foreground mb-2" />
@@ -337,7 +347,9 @@ export default function Home() {
                 </CardDescription>
               </CardHeader>
             </Card>
+            </GlowCapture>
 
+            <GlowCapture>
             <Card className="border-2 hover:border-primary-foreground/50 transition-colors bg-primary-foreground/10 backdrop-blur">
               <CardHeader>
                 <Network className="w-10 h-10 text-primary-foreground mb-2" />
@@ -347,6 +359,7 @@ export default function Home() {
                 </CardDescription>
               </CardHeader>
             </Card>
+            </GlowCapture>
           </div>
         </section>
 
