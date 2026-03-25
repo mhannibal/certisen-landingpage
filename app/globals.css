@@ -193,11 +193,15 @@
   pointer-events: none;
   user-select: none;
   opacity: var(--glow-opacity, 0);
-  mask: radial-gradient(
+  -webkit-mask-image: radial-gradient(
     var(--glow-size) var(--glow-size) at var(--glow-x) var(--glow-y),
     var(--glow-color) 1%,
     transparent 50%
   );
-  transition: 400ms mask ease;
-  will-change: mask;
+  mask-image: radial-gradient(
+    var(--glow-size) var(--glow-size) at var(--glow-x) var(--glow-y),
+    var(--glow-color) 1%,
+    transparent 50%
+  );
+  transition: opacity 400ms ease;
 }

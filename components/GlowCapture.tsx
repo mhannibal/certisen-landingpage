@@ -8,15 +8,16 @@ interface GlowCaptureProps {
   glowColor?: string;
 }
 
-export function GlowCapture({ children, className = "", glowColor = "#c01212" }: GlowCaptureProps) {
+export function GlowCapture({ children, className = "", glowColor = "#dd5138" }: GlowCaptureProps) {
   const captureRef = useRef<HTMLDivElement>(null);
 
   const handleMouseMove = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
     const capture = captureRef.current;
     if (!capture) return;
 
-    const x = e.pageX - capture.offsetLeft;
-    const y = e.pageY - capture.offsetTop;
+    const rect = capture.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
 
     const overlay = capture.querySelector(".glow-overlay") as HTMLElement;
     if (overlay) {
