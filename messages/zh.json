@@ -1,4 +1,73 @@
 {
+  "privacyPolicy": {
+    "metaTitle": "隐私政策",
+    "metaDescription": "CertiSen隐私政策 — 根据GDPR管理您的个人数据及您的权利。",
+    "backToHome": "返回首页",
+    "title": "隐私政策",
+    "lastUpdated": "最后更新：2026年3月31日",
+    "controller": {
+      "title": "1. 数据控制者",
+      "description": "您个人数据的控制者为CertiSen公司，总部位于法国38330 Montbonnot-Saint-Martin, 655 Av. de l'Europe。联系方式：certisen@inria.fr。"
+    },
+    "dataCollected": {
+      "title": "2. 收集的数据",
+      "description": "当您使用我们网站上的联系表单时，我们会收集以下个人数据：",
+      "items": {
+        "name": "全名",
+        "email": "电子邮件地址",
+        "subject": "咨询主题",
+        "message": "消息内容"
+      },
+      "mandatory": "标有星号的字段为必填项。如未提供这些信息，我们将无法处理您的请求。"
+    },
+    "purposes": {
+      "title": "3. 处理目的",
+      "description": "收集您的个人数据用于以下目的：",
+      "items": {
+        "respond": "回复您的信息咨询或联系请求",
+        "manage": "管理业务关系并跟进您的咨询"
+      }
+    },
+    "legalBasis": {
+      "title": "4. 处理的法律依据",
+      "description": "数据处理基于您的同意（GDPR第6.1.a条），即您提交联系表单时表达的同意，以及CertiSen回复所收到询问的合法利益（GDPR第6.1.f条）。"
+    },
+    "recipients": {
+      "title": "5. 数据接收者",
+      "description": "您的个人数据仅供CertiSen内部授权处理您请求的部门使用。除法律要求外，不会与任何第三方或商业合作伙伴共享。"
+    },
+    "retention": {
+      "title": "6. 数据保留期限",
+      "description": "您的个人数据自您最后一次与CertiSen联系之日起保留3年。超过此期限后，您的数据将被删除或匿名化。"
+    },
+    "rights": {
+      "title": "7. 您的权利",
+      "description": "根据《通用数据保护条例》(GDPR)，您对个人数据享有以下权利：",
+      "items": {
+        "access": "访问权：确认您的数据正在被处理并获取副本",
+        "rectification": "更正权：要求更正不准确或不完整的数据",
+        "erasure": "删除权：在法规规定的情况下要求删除您的数据",
+        "restriction": "限制处理权：在某些情况下要求暂停数据处理",
+        "portability": "数据可携带权：以结构化、常用格式接收您的数据",
+        "opposition": "反对权：基于合法理由反对处理您的数据"
+      },
+      "howTo": "如需行使这些权利，请通过电子邮件联系我们：certisen@inria.fr，说明您的请求并附上身份证明复印件。我们承诺在收到您的请求后一个月内回复。"
+    },
+    "complaint": {
+      "title": "8. 提出投诉",
+      "description": "如果您在联系我们后认为您的数据保护权利未得到尊重，您可以向法国数据保护机构(CNIL)提出投诉：www.cnil.fr，或向您当地的监管机构投诉。"
+    },
+    "cookies": {
+      "title": "9. Cookies",
+      "description": "我们的网站仅使用运行所必需的严格必要Cookie和用于受众测量的分析Cookie（Vercel Analytics）。不使用任何广告或商业跟踪Cookie。"
+    },
+    "updates": {
+      "title": "10. 隐私政策的修改",
+      "description": "CertiSen保留随时修改本隐私政策的权利。任何修改将在本页面发布，并附有修订后的更新日期。"
+    },
+    "contactFormNotice": "收集您的数据是为了回复您的请求。如需了解更多关于数据管理和您的权利的信息，请参阅我们的",
+    "contactFormLink": "隐私政策"
+  },
   "homePage": {
     "title": "时间敏感网络认证",
     "description": "用于安全关键系统的 TSN 网络。",

@@ -109,6 +109,7 @@ export async function generateMetadata({ params }: { params: Promise<{ local: st
 
 export default function Home() {
   const t = useTranslations('homePage');
+  const p = useTranslations('privacyPolicy');
 
 
 
@@ -400,6 +401,8 @@ export default function Home() {
               namePlaceholder: t('contact.namePlaceholder'),
               emailPlaceholder: t('contact.emailPlaceholder'),
               messagePlaceholder: t('contact.messagePlaceholder'),
+              privacyNotice: p('contactFormNotice'),
+              privacyLink: p('contactFormLink'),
             }}
           />
         </section>
@@ -510,7 +513,7 @@ export default function Home() {
               </p>
               <div className="flex gap-6 text-sm text-primary-foreground/70">
 
-                <Link href="#" className="hover:text-primary-foreground transition-colors">
+                <Link href="/privacy" className="hover:text-primary-foreground transition-colors">
                   {t('footer.privacy')}
                 </Link>
                 <Link

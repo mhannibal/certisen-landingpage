@@ -21,6 +21,8 @@ interface ContactFormProps {
     emailPlaceholder: string;
     subjectPlaceholder: string;
     messagePlaceholder: string;
+    privacyNotice: string;
+    privacyLink: string;
   };
 }
 
@@ -149,6 +151,14 @@ export default function ContactForm({ labels }: ContactFormProps) {
               <span>{errorMsg || labels.error}</span>
             </div>
           )}
+
+          {/* CNIL Level 1: Privacy notice on the form */}
+          <p className="text-xs text-primary-foreground/60 leading-relaxed">
+            {labels.privacyNotice}{' '}
+            <a href="/privacy" className="underline hover:text-primary-foreground transition-colors">
+              {labels.privacyLink}
+            </a>.
+          </p>
 
           <Button
             type="submit"
