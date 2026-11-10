@@ -40,14 +40,14 @@ function Node({
 }) {
   return (
     // Contenu centré dans la carte : icône et titre sur une ligne, détail en dessous.
-    <div ref={nodeRef} className="card relative z-10 rounded-lg p-4 text-center transition-colors hover:border-line-2">
+    <div ref={nodeRef} className="card relative z-10 rounded-lg px-3 py-3 text-center transition-colors hover:border-line-2 sm:p-4">
       <div className="flex items-center justify-center gap-3">
         <span className="card-inset grid size-8 shrink-0 place-items-center rounded-md text-fg">
           <Icon className="size-4" strokeWidth={1.6} />
         </span>
         <p className="text-sm font-medium text-fg">{title}</p>
       </div>
-      <p className="mt-2.5 text-xs leading-relaxed text-muted">{lines.join(" · ")}</p>
+      <p className="mt-2 text-xs leading-relaxed text-muted sm:mt-2.5">{lines.join(" · ")}</p>
     </div>
   );
 }
@@ -181,11 +181,11 @@ export function Solution() {
   const mon = useRef<HTMLDivElement>(null);
 
   return (
-    <section id="solution" className="relative py-28 sm:py-36">
+    <section id="solution" className="relative py-20 sm:py-28 lg:py-36">
       <Container>
         <SectionHeading index="03" eyebrow={t.eyebrow} title={t.title} accent={t.accent} description={t.description} />
 
-        <Reveal className="mt-16">
+        <Reveal className="mt-10 sm:mt-16">
           <div
             ref={box}
             className="bg-dots relative grid grid-cols-1 gap-3 rounded-xl border border-line bg-ink-2 p-4 sm:p-8 lg:grid-cols-[1fr_1.1fr_1fr] lg:gap-16 lg:p-10"

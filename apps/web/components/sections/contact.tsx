@@ -9,13 +9,14 @@ import {
   Mail,
   MapPin,
 } from "lucide-react";
-import { AnimatePresence, motion } from "motion/react";
+import { AnimatePresence, motion, useMotionValue, useScroll, useTransform } from "motion/react";
 import {
   Fragment,
   useEffect,
   useRef,
   useState,
   type FormEvent,
+  type PointerEvent as ReactPointerEvent,
   type ReactNode,
 } from "react";
 import { Logo } from "@/components/logo";
@@ -213,14 +214,14 @@ export function Contact() {
   };
 
   return (
-    <section id="contact" className="relative py-28 sm:py-36">
+    <section id="contact" className="relative py-20 sm:py-28 lg:py-36">
       <Container>
-        <div className="grid gap-12 lg:grid-cols-2">
+        <div className="grid gap-10 lg:grid-cols-2 lg:gap-12">
           <div className="flex flex-col">
             <Reveal>
               <SectionLabel index="08">{t.eyebrow}</SectionLabel>
             </Reveal>
-            <h2 className="mt-6 text-balance text-5xl font-medium leading-[1.05] tracking-[-0.04em] text-fg sm:text-6xl">
+            <h2 className="mt-4 text-balance text-[2.5rem] font-medium leading-[1.05] tracking-[-0.04em] text-fg sm:mt-6 sm:text-6xl">
               <BlurText text={t.title} />
               {/[　-鿿＀-￯]$/.test(t.title) ? null : " "}
               <BlurText
@@ -230,9 +231,9 @@ export function Contact() {
               />
             </h2>
             <Reveal delay={0.15}>
-              <p className="mt-6 max-w-md text-lg text-muted">{t.lead}</p>
+              <p className="mt-4 max-w-md text-base text-muted sm:mt-6 sm:text-lg">{t.lead}</p>
             </Reveal>
-            <div className="mt-auto pt-12">
+            <div className="mt-auto pt-8 sm:pt-12">
               <motion.div
                 initial="hidden"
                 whileInView="show"
@@ -261,7 +262,7 @@ export function Contact() {
           </div>
 
           <Reveal delay={0.1} parallax={16}>
-            <form onSubmit={onSubmit} className="card rounded-xl p-6 sm:p-8">
+            <form onSubmit={onSubmit} className="card rounded-xl p-5 sm:p-8">
               <div className="grid gap-4 sm:grid-cols-2">
                 <Field label={t.form.name} name="name" />
                 <Field label={t.form.email} name="email" type="email" />
@@ -314,106 +315,216 @@ const FUNDERS = [
 const PIONNIERS_IA =
   "https://www.entreprises.gouv.fr/espace-entreprises/appels-a-projets-et-appels-a-manifestation-d-interet/pionniers-de-lintelligence";
 
+/**
+ * Grand « CertiSen » du pied de page : mot seul, aligné sur la largeur du contenu,
+ * dégradé discret qui se fond vers le bas et fin liseré. Entrée en fondu, halo à
+ * peine perceptible au survol. Purement décoratif (aria-hidden).
+ */
+function FooterWordmark() {
+  const svg = useRef<SVGSVGElement>(null);
+  const text = useRef<SVGTextElement>(null);
+  // Cadre ajusté au mot mesuré (une fois la police chargée) : il occupe toute la largeur du contenu.
+  const [box, setBox] = useState({ x: 0, y: 0, w: 1200, h: 200 });
+  useEffect(() => {
+    let alive = true;
+    const measure = () => {
+      const b = text.current?.getBBox();
+      // On retire l'espace vide au-dessus des capitales ; le bas garde la place du fondu.
+      // Marge : l'approche négative est aussi retirée après la dernière lettre, le cadre
+      // mesuré s'arrêterait avant le bord réel du « n ».
+      const pad = 250 * 0.06;
+      if (alive && b && b.width > 0) setBox({ x: b.x - pad / 2, y: b.y + b.height * 0.14, w: b.width + pad * 1.5, h: b.height * 0.86 });
+    };
+    measure();
+    document.fonts?.ready.then(measure).catch(() => {});
+    return () => {
+      alive = false;
+    };
+  }, []);
+  const mx = useMotionValue(-1000);
+  const my = useMotionValue(-1000);
+  const glow = useMotionValue(0);
+  const onMove = (e: ReactPointerEvent) => {
+    const m = svg.current?.getScreenCTM();
+    if (!m) return;
+    const p = new DOMPoint(e.clientX, e.clientY).matrixTransform(m.inverse());
+    mx.set(p.x);
+    my.set(p.y);
+    glow.set(1);
+  };
+  const word = (
+    <text x={0} y={200} fontSize={250} fontWeight={600} letterSpacing="-0.04em" style={{ fontFamily: "var(--font-sans)" }}>
+      CertiSen
+    </text>
+  );
+  return (
+    <Container className="pb-0">
+      <div aria-hidden onPointerMove={onMove} onPointerLeave={() => glow.set(0)} className="select-none pt-4">
+        <svg ref={svg} viewBox={`${box.x} ${box.y} ${box.w} ${box.h}`} className="block h-auto w-full overflow-visible">
+          <defs>
+            {/* Dégradé vertical : le mot se fond dans le fond vers le bas */}
+            <linearGradient id="wm-fill" gradientUnits="userSpaceOnUse" x1="0" y1={box.y} x2="0" y2={box.y + box.h}>
+              <stop offset="0" stopColor="#262626" />
+              <stop offset="0.65" stopColor="#141414" />
+              <stop offset="1" stopColor="#0a0a0a" />
+            </linearGradient>
+            <radialGradient id="wm-spot">
+              <stop offset="0" stopColor="#ffffff" stopOpacity="1" />
+              <stop offset="1" stopColor="#ffffff" stopOpacity="0" />
+            </radialGradient>
+            <clipPath id="wm-clip">{word}</clipPath>
+          </defs>
+          {/* Mot de mesure (invisible) */}
+          <text
+            ref={text}
+            x={0}
+            y={200}
+            fontSize={250}
+            fontWeight={600}
+            letterSpacing="-0.04em"
+            style={{ fontFamily: "var(--font-sans)" }}
+            fill="none"
+            opacity={0}
+          >
+            CertiSen
+          </text>
+          <g fill="url(#wm-fill)">{word}</g>
+          {/* Halo très discret au survol, limité aux lettres */}
+          <motion.g clipPath="url(#wm-clip)" style={{ opacity: glow }} transition={{ duration: 0.4 }}>
+            <motion.circle cx={mx} cy={my} r={170} fill="url(#wm-spot)" opacity={0.09} />
+          </motion.g>
+        </svg>
+      </div>
+    </Container>
+  );
+}
+
 export function Footer() {
   const { dict, locale } = useI18n();
   const t = dict.footer;
+  const wrapper = useRef<HTMLDivElement>(null);
+  // Le rideau se lève : 0 quand le pied de page entre par le bas, 1 quand il est entièrement dévoilé.
+  const { scrollYProgress } = useScroll({ target: wrapper, offset: ["start end", "end end"] });
+  const wordScale = useTransform(scrollYProgress, [0, 1], [0.82, 1]);
+  const wordY = useTransform(scrollYProgress, [0, 1], ["12vh", "0vh"]);
+  const wordOpacity = useTransform(scrollYProgress, [0.1, 0.9], [0, 1]);
+  // Les informations montent doucement pendant que le rideau se lève.
+  const infoY = useTransform(scrollYProgress, [0.35, 0.95], [40, 0]);
+  const infoOpacity = useTransform(scrollYProgress, [0.35, 0.85], [0, 1]);
+  const edgeOpacity = useTransform(scrollYProgress, [0.75, 1], [1, 0]);
   return (
-    <footer className="relative overflow-hidden border-t border-line">
-      <Container className="grid gap-10 py-12 sm:grid-cols-2 lg:grid-cols-[1.4fr_1fr_1fr]">
-        <div>
-          <Logo />
-          <p className="mt-4 max-w-xs text-sm leading-relaxed text-subtle">
-            {t.tagline}
-          </p>
-          <p className="mt-8 font-mono text-[11px] uppercase tracking-[0.14em] text-subtle">
-            {t.fundedBy}
-          </p>
-          {/* Grille 2 × 2 : Inria, Inria Startup Studio / Pionniers de l'IA, Bpifrance */}
-          <div className="mt-3 grid w-fit grid-cols-2 items-center justify-items-start gap-x-10 gap-y-5">
-            {FUNDERS.map((f, i) => (
-              <Fragment key={f.name}>
-                {/* Pionniers de l'IA se place avant Bpifrance (3e case). */}
-                {i === 2 ? (
+    // Rideau : sur un grand écran, le pied de page reste fixé sous la page et n'est visible
+    // que dans ce cadre (clip-path) ; il se dévoile pendant le défilement.
+    <div ref={wrapper} className="relative tall:h-[100svh]" style={{ clipPath: "polygon(0 0, 100% 0, 100% 100%, 0 100%)" }}>
+      <footer className="relative flex flex-col overflow-hidden bg-ink tall:fixed tall:inset-x-0 tall:bottom-0 tall:h-[100svh]">
+        {/* Aurore qui respire et grille en fondu */}
+        <div className="footer-aurora pointer-events-none absolute left-1/2 top-1/2 z-0 h-[60vh] w-[80vw] -translate-x-1/2 -translate-y-1/2 animate-footer-breathe rounded-[50%] blur-[80px]" />
+        {/* Grille très discrète, estompée vers les bords */}
+        <div
+          className="bg-grid pointer-events-none absolute inset-0 z-0 opacity-35"
+          style={{
+            maskImage: "radial-gradient(ellipse 70% 60% at 50% 45%, black 0%, transparent 75%)",
+            WebkitMaskImage: "radial-gradient(ellipse 70% 60% at 50% 45%, black 0%, transparent 75%)",
+          }}
+        />
+
+        {/* Continuité avec la section Contact : le décor apparaît en fondu depuis le noir du haut */}
+        <div className="pointer-events-none absolute inset-x-0 top-0 z-[1] h-[35vh] bg-gradient-to-b from-ink via-ink/70 to-transparent" />
+
+        {/* Grand « CertiSen » : il monte et grandit pendant que le rideau se lève */}
+        <motion.div
+          style={{ scale: wordScale, y: wordY, opacity: wordOpacity }}
+          className="pointer-events-auto z-0 order-last origin-bottom tall:absolute tall:inset-x-0 tall:bottom-0"
+        >
+          <FooterWordmark />
+        </motion.div>
+
+
+        {/* Éléments d'origine du pied de page, au centre : financeurs, adresse, contact */}
+        <motion.div style={{ y: infoY, opacity: infoOpacity }} className="relative z-10 flex flex-1 flex-col justify-center tall:pt-16">
+        <div className="mx-auto grid w-fit max-w-[1200px] gap-x-24 gap-y-10 px-6 py-14 sm:grid-cols-2 lg:grid-cols-[auto_auto_auto]">
+          <div>
+            <Logo />
+            <p className="mt-4 max-w-xs text-sm leading-relaxed text-subtle">{t.tagline}</p>
+            <p className="mt-8 font-mono text-[11px] uppercase tracking-[0.14em] text-subtle">{t.fundedBy}</p>
+            {/* Grille 2 × 2 : Inria, Inria Startup Studio / Pionniers de l'IA, Bpifrance */}
+            <div className="mt-3 grid w-fit grid-cols-2 items-center justify-items-start gap-x-10 gap-y-5">
+              {FUNDERS.map((f, i) => (
+                <Fragment key={f.name}>
+                  {/* Pionniers de l'IA se place avant Bpifrance (3e case). */}
+                  {i === 2 ? (
+                    <a
+                      href={PIONNIERS_IA}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="flex flex-col leading-tight text-fg opacity-85 transition-opacity duration-300 hover:opacity-100"
+                    >
+                      <span className="text-[15px] font-medium tracking-[-0.02em]">Pionniers de l&apos;IA</span>
+                      <span className="font-mono text-[9.5px] uppercase tracking-[0.14em] opacity-70">France 2030</span>
+                    </a>
+                  ) : null}
                   <a
-                    href={PIONNIERS_IA}
+                    href={f.href(locale === "fr")}
                     target="_blank"
                     rel="noreferrer"
-                    className="flex flex-col leading-tight text-fg opacity-85 transition-opacity duration-300 hover:opacity-100"
+                    className="opacity-85 transition-opacity duration-300 hover:opacity-100"
                   >
-                    <span className="text-[15px] font-medium tracking-[-0.02em]">Pionniers de l&apos;IA</span>
-                    <span className="font-mono text-[9.5px] uppercase tracking-[0.14em] opacity-70">France 2030</span>
+                    {/* Logos en couleurs d'origine (versions pour fond sombre). */}
+                    <BrandLogo file={f.file} label={f.name} className={f.height} color />
                   </a>
-                ) : null}
-                <a
-                  href={f.href(locale === "fr")}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="opacity-85 transition-opacity duration-300 hover:opacity-100"
-                >
-                  {/* Logos en couleurs d'origine (versions pour fond sombre). */}
-                  <BrandLogo file={f.file} label={f.name} className={f.height} color />
+                </Fragment>
+              ))}
+            </div>
+          </div>
+          <div>
+            <p className="font-mono text-[11px] uppercase tracking-[0.14em] text-subtle">{t.addressTitle}</p>
+            <address className="mt-3 text-sm not-italic leading-relaxed text-muted">
+              {t.address.map((line, i) => (
+                <span key={i} className="block">
+                  {line}
+                </span>
+              ))}
+            </address>
+          </div>
+          <div>
+            <p className="font-mono text-[11px] uppercase tracking-[0.14em] text-subtle">{t.contactTitle}</p>
+            <ul className="mt-3 space-y-1.5 text-sm text-muted">
+              <li>
+                <a href={`mailto:${EMAIL}`} className="transition-colors hover:text-fg">
+                  {EMAIL}
                 </a>
-              </Fragment>
-            ))}
+              </li>
+              <li>
+                <a href={LINKEDIN} target="_blank" rel="noreferrer" className="transition-colors hover:text-fg">
+                  LinkedIn
+                </a>
+              </li>
+            </ul>
           </div>
         </div>
-        <div>
-          <p className="font-mono text-[11px] uppercase tracking-[0.14em] text-subtle">
-            {t.addressTitle}
-          </p>
-          <address className="mt-3 text-sm not-italic leading-relaxed text-muted">
-            {t.address.map((line, i) => (
-              <span key={i} className="block">
-                {line}
-              </span>
-            ))}
-          </address>
-        </div>
-        <div>
-          <p className="font-mono text-[11px] uppercase tracking-[0.14em] text-subtle">
-            {t.contactTitle}
-          </p>
-          <ul className="mt-3 space-y-1.5 text-sm text-muted">
-            <li>
-              <a
-                href={`mailto:${EMAIL}`}
-                className="transition-colors hover:text-fg"
-              >
-                {EMAIL}
-              </a>
-            </li>
-            <li>
-              <a
-                href={LINKEDIN}
-                target="_blank"
-                rel="noreferrer"
-                className="transition-colors hover:text-fg"
-              >
-                LinkedIn
-              </a>
-            </li>
-          </ul>
-        </div>
-      </Container>
-      <Container className="flex items-center justify-between gap-4 border-t border-line py-5 text-xs text-subtle">
-        <span>{t.rights}</span>
-        <a
-          href="#top"
-          className="group inline-flex items-center gap-2.5 whitespace-nowrap transition-colors duration-300 hover:text-fg"
-        >
-          <span className="relative">
-            {t.top}
-            <span className="absolute -bottom-0.5 left-0 h-px w-full origin-right scale-x-0 bg-fg transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:origin-left group-hover:scale-x-100" />
-          </span>
-          <span className="relative grid size-7 place-items-center overflow-hidden rounded-full border border-line-2 transition-colors duration-300 group-hover:border-fg group-hover:bg-fg group-hover:text-ink">
-            <ArrowUp className="size-3.5 transition-transform duration-300 ease-out group-hover:-translate-y-6" />
-            <ArrowUp className="absolute size-3.5 translate-y-6 transition-transform duration-300 ease-out group-hover:translate-y-0" />
-          </span>
-        </a>
-      </Container>
-      <p className="pointer-events-none -mb-[3vw] select-none text-center text-[20vw] font-semibold leading-none tracking-[-0.07em] text-[#141414]">
-        CertiSen
-      </p>
-    </footer>
+        </motion.div>
+
+        <Container className="relative z-10 flex flex-col items-center justify-between gap-4 border-t border-line py-5 text-xs text-subtle sm:flex-row">
+          <span>{t.rights}</span>
+          <a href="#top" className="group inline-flex items-center gap-2.5 whitespace-nowrap transition-colors duration-300 hover:text-fg">
+            <span className="relative">
+              {t.top}
+              <span className="absolute -bottom-0.5 left-0 h-px w-full origin-right scale-x-0 bg-fg transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:origin-left group-hover:scale-x-100" />
+            </span>
+            <span className="relative grid size-7 place-items-center overflow-hidden rounded-full border border-line-2 transition-colors duration-300 group-hover:border-fg group-hover:bg-fg group-hover:text-ink">
+              <ArrowUp className="size-3.5 transition-transform duration-300 ease-out group-hover:-translate-y-6" />
+              <ArrowUp className="absolute size-3.5 translate-y-6 transition-transform duration-300 ease-out group-hover:translate-y-0" />
+            </span>
+          </a>
+        </Container>
+      </footer>
+      {/* Bord du rideau : il défile avec la page, au-dessus du pied de page fixé. Le fond
+          passe donc toujours en douceur du noir de la section Contact au décor du pied de page. */}
+      {/* Il s'efface à la fin du dévoilement pour ne pas assombrir les informations. */}
+      <motion.div
+        style={{ opacity: edgeOpacity }}
+        className="pointer-events-none absolute inset-x-0 top-0 z-20 h-[45vh] bg-gradient-to-b from-ink via-ink/80 to-transparent"
+      />
+    </div>
   );
 }

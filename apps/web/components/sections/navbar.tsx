@@ -1,7 +1,7 @@
 "use client";
 
 import { AnimatePresence, motion, useMotionValueEvent, useScroll } from "motion/react";
-import { ArrowUpRight, Check, ChevronDown, Globe, Menu, X } from "lucide-react";
+import { ArrowUpRight, Check, ChevronDown, Globe } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { Logo } from "@/components/logo";
 import { LOCALES, LOCALE_COOKIE, LOCALE_META, type Locale } from "@/lib/i18n/config";
@@ -85,6 +85,62 @@ function LanguageMenu({ compact = false }: { compact?: boolean }) {
   );
 }
 
+/**
+ * Bouton du menu mobile : les trois traits se rejoignent puis se croisent en X,
+ * le bouton s'enfonce et se remplit, une onde part du bord à chaque clic.
+ */
+function MenuButton({ open, label, onClick }: { open: boolean; label: string; onClick: () => void }) {
+  const [taps, setTaps] = useState(0);
+  return (
+    <motion.button
+      type="button"
+      aria-label={label}
+      aria-expanded={open}
+      onClick={() => {
+        setTaps((n) => n + 1);
+        onClick();
+      }}
+      whileTap={{ scale: 0.86 }}
+      transition={{ type: "spring", stiffness: 500, damping: 22 }}
+      className={`relative grid size-10 cursor-pointer place-items-center rounded-full border transition-colors duration-300 lg:hidden ${
+        open ? "border-fg bg-fg text-ink" : "border-line-2 text-fg hover:border-subtle"
+      }`}
+    >
+      {taps ? (
+        <motion.span
+          key={taps}
+          aria-hidden
+          initial={{ scale: 1, opacity: 0.55 }}
+          animate={{ scale: 1.75, opacity: 0 }}
+          transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+          className="pointer-events-none absolute inset-0 rounded-full border border-fg"
+        />
+      ) : null}
+      <span aria-hidden className="relative block h-3.5 w-[18px]">
+        {[-1, 0, 1].map((k) => (
+          <motion.span
+            key={k}
+            className="absolute inset-x-0 top-1/2 -mt-[0.75px] h-[1.5px] rounded-full bg-current"
+            initial={false}
+            animate={
+              open
+                ? { y: 0, rotate: k * -45, opacity: k ? 1 : 0, scaleX: k ? 1 : 0.2 }
+                : { y: k * 6, rotate: 0, opacity: 1, scaleX: 1 }
+            }
+            // Ouverture : les traits se rejoignent, puis tournent ; fermeture : l'inverse.
+            transition={{
+              y: { duration: 0.18, delay: open ? 0 : 0.14, ease: "easeInOut" },
+              rotate: { type: "spring", stiffness: 380, damping: 20, delay: open ? 0.14 : 0 },
+              opacity: { duration: 0.12, delay: open ? 0.06 : 0.14 },
+              scaleX: { duration: 0.18, delay: open ? 0 : 0.14 },
+            }}
+          />
+        ))}
+      </span>
+    </motion.button>
+  );
+}
+
 /** Barre flottante : transparente en haut de page, pilule resserrée au défilement. */
 export function Navbar() {
   const { dict } = useI18n();
@@ -128,7 +184,9 @@ export function Navbar() {
             : "border border-transparent"
         }`}
       >
-        <a href="#top" aria-label={dict.nav.home}>
+        {/* Lien en flex : sans cela, le logo (inline-flex) reposait sur la ligne de base du lien et
+            remontait de ~3 px au-dessus du centre de la barre. */}
+        <a href="#top" aria-label={dict.nav.home} className="flex items-center">
           <Logo />
         </a>
 
@@ -169,24 +227,18 @@ export function Navbar() {
               <ArrowUpRight className="size-4 group-hover:animate-cta-arrow" />
             </span>
           </a>
-          <button
-            type="button"
-            aria-label={open ? dict.nav.closeMenu : dict.nav.openMenu}
-            onClick={() => setOpen((o) => !o)}
-            className="grid size-10 place-items-center rounded-full border border-line-2 text-fg lg:hidden"
-          >
-            {open ? <X className="size-5" /> : <Menu className="size-5" />}
-          </button>
+          <MenuButton open={open} label={open ? dict.nav.closeMenu : dict.nav.openMenu} onClick={() => setOpen((o) => !o)} />
         </div>
       </motion.nav>
 
       <AnimatePresence>
         {open ? (
           <motion.div
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -10 }}
-            className="card absolute inset-x-4 top-20 rounded-3xl p-3 lg:hidden"
+            initial={{ opacity: 0, y: -8, scale: 0.96, filter: "blur(6px)" }}
+            animate={{ opacity: 1, y: 0, scale: 1, filter: "blur(0px)" }}
+            exit={{ opacity: 0, y: -8, scale: 0.96, filter: "blur(6px)" }}
+            transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
+            className="card absolute inset-x-4 top-20 origin-top-right rounded-3xl p-3 lg:hidden"
           >
             {[...links, { href: "#contact", label: dict.nav.contact }].map((l, i) => (
               <motion.a

@@ -67,6 +67,12 @@ export const FILM = {
   freeze: 0.945,
 };
 
+/**
+ * Mise en page partagée entre le panneau (DOM) et la caméra (3D) : hauteur occupée en
+ * bas de l'écran par le panneau quand il est posé en bas (mobile, tablette), en px.
+ */
+export const heroLayout = { bottom: 0 };
+
 /** Fenêtre d'apparition : 0 hors de [a, b], fondus de largeur f aux bords. */
 export const win = (p: number, a: number, b: number, f = 0.02) =>
   smoothstep(a, a + f, p) * (1 - smoothstep(b - f, b, p));

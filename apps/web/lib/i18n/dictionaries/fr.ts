@@ -116,6 +116,7 @@ const fr: Dictionary = {
   },
   features: {
     eyebrow: "La plateforme",
+    goTo: "Aller à la diapositive",
     title: "De la conception au déploiement,",
     accent: "un cycle de vie certifié.",
     description: "Performance déterministe et cybersécurité réunies, pour des réseaux TSN au niveau de confiance ASIL-D.",
@@ -236,6 +237,8 @@ const fr: Dictionary = {
     label: "De l'usine à la route, certifié par CertiSen",
     scroll: "Faites défiler pour commencer",
     hint: "Cliquez sur un point pour voir ce que c'est",
+    showDetails: "Détails",
+    hideDetails: "Masquer",
     lead: "CertiSen est la couche de vérification formelle du temps pour les [[véhicules définis par logiciel (SDV)]]. L'IA propose les configurations des réseaux TSN ; des preuves vérifiées par machine les certifient [[après chaque mise à jour OTA]].",
     chapters: ["Assemblage", "Mise à jour OTA", "Certification", "Déploiement", "Sûreté temporelle", "Échéances", "Surveillance", "Cybersécurité", "Latence", "En route"],
     assembly: {

@@ -27,7 +27,7 @@ export function TrustStrip() {
   return (
     // Seule section qui garde ses traits de séparation (bandeau de confiance).
     <section className="relative border-y border-line bg-ink-2">
-      <div className="mx-auto grid max-w-[1200px] items-center gap-6 px-6 py-7 md:grid-cols-[max-content_minmax(0,1fr)] md:gap-10">
+      <div className="mx-auto grid max-w-[1200px] items-center gap-4 px-5 py-6 sm:gap-6 sm:px-6 sm:py-7 md:grid-cols-[max-content_minmax(0,1fr)] md:gap-10">
         {/* Toujours deux lignes : chaque moitié reste sur une ligne, la colonne s'adapte. */}
         <p className="font-mono text-[11px] uppercase leading-relaxed tracking-[0.14em] text-subtle">
           <span className="block whitespace-nowrap">{t.label[0]}</span>

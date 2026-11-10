@@ -1,7 +1,7 @@
 "use client";
 
 import { motion, useReducedMotion, useScroll, useTransform } from "motion/react";
-import { useRef, type ReactNode } from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
 
@@ -60,11 +60,25 @@ export function BlurText({
  * Parallaxe léger : le contenu glisse de +offset à −offset px pendant qu'il traverse
  * l'écran. Désactivé si l'utilisateur demande moins d'animations.
  */
+/** Écran étroit : mobile (< 768 px) par défaut, ou jusqu'à la largeur donnée. */
+export function useNarrow(max = 767) {
+  const [narrow, setNarrow] = useState(false);
+  useEffect(() => {
+    const m = window.matchMedia(`(max-width: ${max}px)`);
+    const f = () => setNarrow(m.matches);
+    f();
+    m.addEventListener("change", f);
+    return () => m.removeEventListener("change", f);
+  }, [max]);
+  return narrow;
+}
+
 export function Parallax({ children, offset = 16, className }: { children: ReactNode; offset?: number; className?: string }) {
   const ref = useRef<HTMLDivElement>(null);
   const reduce = useReducedMotion();
+  const narrow = useNarrow();
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] });
-  const y = useTransform(scrollYProgress, [0, 1], reduce ? [0, 0] : [offset, -offset]);
+  const y = useTransform(scrollYProgress, [0, 1], reduce || narrow ? [0, 0] : [offset, -offset]);
   return (
     <motion.div ref={ref} style={{ y }} className={className}>
       {children}
@@ -79,18 +93,22 @@ export function Reveal({
   y = 18,
   className,
   parallax,
+  show,
 }: {
   children: ReactNode;
   delay?: number;
   y?: number;
   className?: string;
   parallax?: number;
+  /** Apparition pilotée de l'extérieur (carrousel : une carte rognée sur le côté n'est jamais « dans la vue »). */
+  show?: boolean;
 }) {
+  const shown = { opacity: 1, y: 0 };
   return (
     <motion.div
       className={className}
       initial={{ opacity: 0, y }}
-      whileInView={{ opacity: 1, y: 0 }}
+      {...(show === undefined ? { whileInView: shown } : { animate: show ? shown : undefined })}
       viewport={{ once: true, margin: "-80px" }}
       transition={{ duration: 0.7, delay, ease: EASE }}
     >

@@ -15,7 +15,7 @@ type Phase = "arrive" | "replay" | "certified";
 
 /** Cadre sobre du visuel (sans lueur autour). */
 function Frame({ children }: { children: ReactNode }) {
-  return <div className="card-inset rounded-lg">{children}</div>;
+  return <div className="card-inset rounded-lg md:flex md:flex-1 md:flex-col md:justify-center">{children}</div>;
 }
 
 /**
@@ -64,7 +64,7 @@ export function OtaVisual() {
   const history = [latest - 3, latest - 2, latest - 1, latest];
 
   return (
-    <div ref={ref} className="mt-6">
+    <div ref={ref} className="mt-6 md:mt-3 md:flex md:flex-1 md:flex-col lg:mt-5">
       <Frame>
         <div className="p-4">
           {/* Mise à jour → faisceau → noyau CertiSen → version */}
@@ -135,8 +135,8 @@ export function OtaVisual() {
             <motion.div className="h-full origin-left rounded-full bg-fg" style={{ scaleX: progress }} />
           </div>
 
-          {/* Historique des certificats : la dernière version arrive comme un tampon */}
-          <div className="mt-4 flex items-center gap-2 overflow-hidden">
+          {/* Historique des certificats : la dernière version arrive comme un tampon ; calé à droite, seules les plus anciennes sont rognées. */}
+          <div className="mt-4 flex items-center justify-end gap-2 overflow-hidden [mask-image:linear-gradient(90deg,transparent,#000_14%)]">
             <AnimatePresence mode="popLayout" initial={false}>
               {history.map((v, i) => {
                 const newest = i === history.length - 1;

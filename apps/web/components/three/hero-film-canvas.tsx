@@ -21,6 +21,7 @@ import {
   carX,
   deployOf,
   downloadOf,
+  heroLayout,
   win,
 } from "@/lib/hero-film";
 import { pointAt, smoothstep, type Flow } from "@/lib/network";
@@ -93,6 +94,13 @@ function iconStrokes(paths: string[], width = 2) {
 /* Caméra : plans successifs, relatifs à la voiture                    */
 /* ------------------------------------------------------------------ */
 
+/** Champ vertical de référence (degrés) et demi-largeur de champ visée (écran 16:10). */
+const FOV = 36;
+const TAN_FOV = Math.tan(THREE.MathUtils.degToRad(FOV / 2));
+const COVER = TAN_FOV * 1.6;
+/** Champ vertical maximal sur écran étroit : au-delà, la perspective se déforme. */
+const TAN_FOV_MAX = Math.tan(THREE.MathUtils.degToRad(33));
+
 const SHOTS: { p: number; pos: V3; look: V3 }[] = [
   { p: 0.0, pos: [10.5, 3.6, 9.0], look: [0, 0.6, 0] }, // plan large du garage, l'assemblage commence
   { p: 0.05, pos: [6.4, 2.2, 6.0], look: [0, 0.8, 0] }, // trois-quarts avant
@@ -137,6 +145,8 @@ function CameraRig({ progress }: { progress: MotionValue<number> }) {
       lookNow: new THREE.Vector3(...SHOTS[0]!.look),
       target: new THREE.Vector3(),
       last: 0,
+      fov: FOV,
+      sy: 0,
     }),
     [],
   );
@@ -169,33 +179,57 @@ function CameraRig({ progress }: { progress: MotionValue<number> }) {
       v.look.lerpVectors(v.a, v.b, e);
     }
     const { width, height } = state.size;
-    // Écran portrait : on recule pour garder la voiture entière.
+    const base = carX(Math.min(p, FILM.freeze));
+    // Écran étroit (mobile, tablette) : champ un peu plus large et léger recul pour
+    // garder la voiture entière. Dans le garage, la caméra reste entre les murs :
+    // reculée au-delà, les piliers et les étagères passaient devant la voiture.
     const aspect = width / Math.max(1, height);
-    if (aspect < 1) v.pos.sub(v.look).multiplyScalar(clamp(1.3 / aspect, 1, 2.4)).add(v.look);
+    const need = Math.max(1, (COVER * lerp(0.72, 1, smoothstep(0.45, 1.6, aspect))) / (aspect * TAN_FOV));
+    let fov = FOV;
+    if (need > 1) {
+      const k = Math.min(1.5, need ** 0.45);
+      v.a.copy(v.pos).sub(v.look);
+      const want = v.a.length() * k;
+      v.pos.copy(v.look).addScaledVector(v.a, k);
+      const inside = 1 - smoothstep(FILM.door[1] - 0.01, FILM.door[1] + 0.025, p);
+      if (inside > 0) {
+        const { back, front, side } = GARAGE;
+        v.b.set(clamp(v.pos.x + base, back + 1, front - 0.8) - base, clamp(v.pos.y, 0.4, 4.8), clamp(v.pos.z, 1.6 - side, side - 1.6));
+        v.pos.lerp(v.b, inside);
+      }
+      // Ce que le recul n'a pas pu donner, le champ le compense (dans la limite fixée).
+      const got = Math.max(0.01, v.a.copy(v.pos).sub(v.look).length());
+      const tan = Math.min(TAN_FOV_MAX, ((TAN_FOV * need) / k) * (want / got));
+      fov = THREE.MathUtils.radToDeg(2 * Math.atan(tan));
+    }
     // Lissage dans le repère de la voiture : la caméra ne « décroche » pas à grande vitesse.
     const d = jumped ? 1 : 1 - Math.exp(-delta * 5);
     v.posNow.lerp(v.pos, d);
     v.lookNow.lerp(v.look, d);
-    const base = carX(Math.min(p, FILM.freeze));
+    v.fov = lerp(v.fov, fov, d);
     state.camera.position.set(v.posNow.x + base, v.posNow.y, v.posNow.z);
     v.target.set(v.lookNow.x + carX(p), v.lookNow.y, v.lookNow.z);
     state.camera.lookAt(v.target);
 
-    // Image décalée pour laisser la place aux cartes : à droite sur grand écran
-    // (cartes à gauche), vers le haut sur mobile (cartes en bas).
+    // Image décalée pour laisser la place au panneau : à droite sur grand écran
+    // (panneau à gauche) ; sur mobile et tablette (panneau en bas), la voiture est
+    // centrée dans l'espace libre entre la barre de navigation et le panneau.
     const cam = state.camera as THREE.PerspectiveCamera;
     const sx = width >= 1024 ? Math.round(-0.12 * width) : 0;
-    const sy = width < 768 ? Math.round(0.13 * height) : 0;
+    v.sy = lerp(v.sy, width < 1024 ? Math.max(0, (heroLayout.bottom - 72) / 2) : 0, jumped ? 1 : 1 - Math.exp(-delta * 4));
+    const sy = Math.round(v.sy);
     const view = cam.view;
     const on = !!view && view.enabled;
     const stale =
       (on ? view.offsetX : 0) !== sx ||
       (on ? view.offsetY : 0) !== sy ||
       (on && (view.fullWidth !== width || view.fullHeight !== height));
+    const zoom = Math.abs(cam.fov - v.fov) > 0.02;
+    if (zoom) cam.fov = v.fov;
     if (stale) {
       if (sx || sy) cam.setViewOffset(width, height, sx, sy, width, height);
       else cam.clearViewOffset();
-    }
+    } else if (zoom) cam.updateProjectionMatrix();
   });
   return null;
 }
@@ -1069,7 +1103,7 @@ function TestTarget({ progress }: { progress: MotionValue<number> }) {
 /* Route                                                               */
 /* ------------------------------------------------------------------ */
 
-function Road() {
+function Road({ progress }: { progress: MotionValue<number> }) {
   const dashes = useRef<THREE.InstancedMesh>(null);
   const poles = useRef<THREE.InstancedMesh>(null);
   const heads = useRef<THREE.InstancedMesh>(null);
@@ -1080,6 +1114,48 @@ function Road() {
   const lampStep = 16;
   const nLamp = Math.floor(length / lampStep) * 2;
   const nRail = Math.floor(length / 4) * 2;
+  /** Lampadaire i, enfoncé dans le sol selon k (1 : debout, 0 : effacé). */
+  const lampX = (i: number) => start + 10 + Math.floor(i / 2) * lampStep;
+  const lampZ = (i: number) => (i % 2 ? 1 : -1) * 5.6;
+  const placeLamp = (m: THREE.Object3D, i: number, k: number) => {
+    m.scale.set(1, Math.max(0.001, k), 1);
+    m.position.set(lampX(i), 2.4 * k, lampZ(i));
+    m.updateMatrix();
+    poles.current?.setMatrixAt(i, m.matrix);
+    m.scale.setScalar(Math.max(0.001, k));
+    m.position.set(lampX(i), 4.75 * k, (lampZ(i) * 5.0) / 5.6);
+    m.updateMatrix();
+    heads.current?.setMatrixAt(i, m.matrix);
+    m.scale.setScalar(1);
+  };
+  // Un lampadaire placé entre la caméra et la voiture s'efface : il masquerait la voiture.
+  const lamp = useMemo(() => ({ k: new Float32Array(nLamp).fill(1), m: new THREE.Object3D() }), [nLamp]);
+  useFrame((state, delta) => {
+    const cam = state.camera.position;
+    const dx = carX(progress.get()) - cam.x;
+    const dz = -cam.z;
+    const len2 = Math.max(1e-6, dx * dx + dz * dz);
+    let dirty = false;
+    for (let i = 0; i < nLamp; i++) {
+      const lx = lampX(i) - cam.x;
+      const lz = lampZ(i) - cam.z;
+      const t = (lx * dx + lz * dz) / len2;
+      const ex = dx * t - lx;
+      const ez = dz * t - lz;
+      const target = t > 0 && t < 1 && ex * ex + ez * ez < 2.6 * 2.6 ? 0 : 1;
+      const k0 = lamp.k[i]!;
+      if (k0 === target) continue;
+      let k = THREE.MathUtils.damp(k0, target, 12, delta);
+      if (Math.abs(k - target) < 0.01) k = target;
+      lamp.k[i] = k;
+      placeLamp(lamp.m, i, k);
+      dirty = true;
+    }
+    if (dirty) {
+      if (poles.current) poles.current.instanceMatrix.needsUpdate = true;
+      if (heads.current) heads.current.instanceMatrix.needsUpdate = true;
+    }
+  });
   useLayoutEffect(() => {
     const m = new THREE.Object3D();
     for (let i = 0; i < nDash; i++) {
@@ -1087,16 +1163,7 @@ function Road() {
       m.updateMatrix();
       dashes.current?.setMatrixAt(i, m.matrix);
     }
-    for (let i = 0; i < nLamp; i++) {
-      const s = i % 2 ? 1 : -1;
-      const x = start + 10 + Math.floor(i / 2) * lampStep;
-      m.position.set(x, 2.4, s * 5.6);
-      m.updateMatrix();
-      poles.current?.setMatrixAt(i, m.matrix);
-      m.position.set(x, 4.75, s * 5.0);
-      m.updateMatrix();
-      heads.current?.setMatrixAt(i, m.matrix);
-    }
+    for (let i = 0; i < nLamp; i++) placeLamp(m, i, 1);
     for (let i = 0; i < nRail; i++) {
       m.position.set(start + 4 + Math.floor(i / 2) * 4, 0.3, (i % 2 ? 1 : -1) * 4.95);
       m.updateMatrix();
@@ -2677,7 +2744,7 @@ export default function HeroFilmCanvas({
       <Canvas
         frameloop={inView ? "always" : "never"}
         dpr={[1, 1.75]}
-        camera={{ position: SHOTS[0]!.pos, fov: 36, near: 0.1, far: 220 }}
+        camera={{ position: SHOTS[0]!.pos, fov: FOV, near: 0.1, far: 220 }}
         gl={{ antialias: true, powerPreference: "high-performance" }}
       >
         <color attach="background" args={[ink]} />
@@ -2690,7 +2757,7 @@ export default function HeroFilmCanvas({
         <Engineers progress={progress} />
         <Gantry progress={progress} />
         <TestTarget progress={progress} />
-        <Road />
+        <Road progress={progress} />
         <Barrier progress={progress} />
         <LatencyTrail progress={progress} />
         <Vehicle progress={progress} />

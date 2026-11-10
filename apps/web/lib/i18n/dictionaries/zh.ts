@@ -114,6 +114,7 @@ const zh: Dictionary = {
   },
   features: {
     eyebrow: "平台",
+    goTo: "跳转到第",
     title: "从设计到部署，",
     accent: "全生命周期认证。",
     description: "确定性性能与内置网络安全相结合，让 TSN 网络达到 ASIL-D 安全等级。",
@@ -233,6 +234,8 @@ const zh: Dictionary = {
     label: "从工厂到道路，经 CertiSen 认证",
     scroll: "向下滚动开始",
     hint: "点击圆点，查看对应部件",
+    showDetails: "详情",
+    hideDetails: "收起",
     lead: "CertiSen 是面向[[软件定义汽车（SDV）]]的时序形式化验证层。AI 提出 TSN 网络配置，机器检验的形式化证明对其进行认证，并[[在每次 OTA 升级后重新验证]]。",
     chapters: ["装配", "OTA 更新", "认证", "部署", "时间安全", "截止时间", "监控", "网络安全", "延迟", "上路"],
     assembly: {

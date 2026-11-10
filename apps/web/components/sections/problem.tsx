@@ -4,7 +4,7 @@ import { AnimatePresence, motion } from "motion/react";
 import { Cpu, Disc3, Network, Radar } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Reveal } from "@/components/ui/blur-text";
-import { Container, SectionHeading } from "@/components/ui/primitives";
+import { Container, SPOTLIGHT, SectionHeading, SpotlightGlow, trackSpotlight } from "@/components/ui/primitives";
 import { useDict } from "@/lib/i18n/provider";
 
 const STAGE_ICONS = [Radar, Cpu, Network, Disc3];
@@ -20,17 +20,18 @@ function BrakingTimeline() {
   const ease = late ? ([0.3, 0, 0.9, 0.7] as const) : ([0.2, 0.7, 0.3, 1] as const);
 
   return (
-    <div className="card relative h-full overflow-hidden rounded-xl p-6 sm:p-8">
+    <div onMouseMove={trackSpotlight} className={`card h-full rounded-xl p-5 lg:p-8 ${SPOTLIGHT}`}>
+      <SpotlightGlow />
       {/* hauteur fixe : le changement d'étiquette ne doit pas faire bouger la page */}
-      <div className="flex h-7 items-center justify-between gap-4">
-        <span className="font-mono text-[11px] uppercase tracking-[0.14em] text-subtle">{t.label}</span>
+      <div className="flex h-7 items-center justify-between gap-3">
+        <span className="whitespace-nowrap font-mono text-[10px] uppercase tracking-[0.12em] text-subtle lg:text-[11px] lg:tracking-[0.14em]">{t.label}</span>
         <AnimatePresence mode="wait" initial={false}>
           <motion.span
             key={late ? "late" : "ok"}
             initial={{ opacity: 0, y: 4 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -4 }}
-            className={`whitespace-nowrap rounded-md px-2.5 py-1 font-mono text-[11px] ${
+            className={`whitespace-nowrap rounded-md px-2 py-1 font-mono text-[10px] lg:px-2.5 lg:text-[11px] ${
               late ? "border border-fg text-fg" : "bg-fg text-ink"
             }`}
           >
@@ -39,21 +40,21 @@ function BrakingTimeline() {
         </AnimatePresence>
       </div>
 
-      <div className="mt-12 grid grid-cols-4 gap-2">
+      <div className="mt-8 grid grid-cols-4 gap-2 sm:mt-12">
         {t.stages.map((label, i) => {
           const Icon = STAGE_ICONS[i]!;
           return (
             <div key={label} className="flex flex-col items-center gap-2.5">
-              <span className="card-inset grid size-12 place-items-center rounded-lg text-fg">
-                <Icon className="size-5" strokeWidth={1.5} />
+              <span className="card-inset grid size-10 place-items-center rounded-lg text-fg sm:size-12">
+                <Icon className="size-4 sm:size-5" strokeWidth={1.5} />
               </span>
-              <span className="text-xs text-muted">{label}</span>
+              <span className="text-[11px] text-muted sm:text-xs">{label}</span>
             </div>
           );
         })}
       </div>
 
-      <div className="relative mx-[12.5%] mt-7 h-1 bg-line">
+      <div className="relative mx-[12.5%] mt-6 h-1 bg-line sm:mt-7">
         <div className="absolute -top-3 bottom-[-12px] left-[78%] w-px bg-fg" />
         <span className="absolute top-5 left-[78%] -translate-x-1/2 whitespace-nowrap font-mono text-[10px] uppercase tracking-widest text-fg">
           {t.deadline}
@@ -76,7 +77,7 @@ function BrakingTimeline() {
         />
       </div>
 
-      <p className="mt-14 border-t border-line pt-5 text-sm leading-relaxed text-muted">
+      <p className="mt-11 border-t border-line pt-4 text-[13px] leading-relaxed text-muted sm:mt-14 sm:pt-5 sm:text-sm">
         {t.caption[0]}
         <span className="text-fg">{t.caption[1]}</span>
         {t.caption[2]}
@@ -88,34 +89,34 @@ function BrakingTimeline() {
 export function Problem() {
   const t = useDict().problem;
   return (
-    <section id="probleme" className="relative py-28 sm:py-36">
+    <section id="probleme" className="relative py-20 sm:py-28 lg:py-36">
       <Container>
         <SectionHeading index="01" eyebrow={t.eyebrow} title={t.title} accent={t.accent} description={t.description} />
 
-        <div className="mt-16 grid gap-5 lg:grid-cols-[1fr_1.1fr]">
+        <div className="mt-10 grid gap-4 sm:mt-16 sm:gap-5 md:grid-cols-2 lg:grid-cols-[1fr_1.1fr]">
           <Reveal parallax={12}>
             <BrakingTimeline />
           </Reveal>
 
           <Reveal delay={0.1} parallax={24}>
-            <div className="card h-full overflow-hidden rounded-xl">
-              <div className="flex items-center justify-between border-b border-line px-6 py-4">
-                <span className="font-mono text-[11px] uppercase tracking-[0.14em] text-subtle">{t.causes.title}</span>
-                <span className="font-mono text-[11px] text-subtle">{t.causes.unit}</span>
+            {/* Une petite carte par cause : norme en haut, titre et explication en bas. */}
+            <div className="flex h-full flex-col">
+              <div className="flex items-center justify-between gap-3 px-1 pb-3 font-mono text-[11px] uppercase tracking-[0.14em] text-subtle">
+                <span>{t.causes.title}</span>
+                <span className="hidden whitespace-nowrap normal-case tracking-normal lg:inline">{t.causes.unit}</span>
               </div>
-              <ul>
-                {t.causes.rows.map((r) => (
-                  <li
-                    key={r.tag}
-                    className="group grid grid-cols-[1fr_auto] items-center gap-6 border-b border-line px-6 py-5 transition-colors last:border-0 hover:bg-white/[0.02]"
-                  >
-                    <div>
-                      <p className="text-[15px] font-medium text-fg">{r.title}</p>
-                      <p className="mt-1 text-sm text-muted">{r.what}</p>
+              <ul className="grid flex-1 auto-rows-fr grid-cols-2 gap-3 sm:gap-4">
+                {t.causes.rows.map((r, i) => (
+                  <li key={r.tag} onMouseMove={trackSpotlight} className={`card flex flex-col rounded-xl p-4 sm:p-5 ${SPOTLIGHT}`}>
+                    <SpotlightGlow />
+                    <div className="flex items-center justify-between gap-2">
+                      <span className="font-mono text-[10px] text-subtle">0{i + 1}</span>
+                      <span className="whitespace-nowrap rounded-md border border-line-2 px-1.5 py-0.5 font-mono text-[10.5px] text-fg sm:text-[11px]">
+                        {r.tag}
+                      </span>
                     </div>
-                    <p className="whitespace-nowrap rounded-md border border-line-2 px-2.5 py-1 text-right font-mono text-[13px] text-fg">
-                      {r.tag}
-                    </p>
+                    <p className="mt-auto pt-5 text-[13.5px] font-medium leading-snug text-fg sm:text-[15px]">{r.title}</p>
+                    <p className="mt-1.5 text-[12px] leading-snug text-muted sm:text-[13px]">{r.what}</p>
                   </li>
                 ))}
               </ul>

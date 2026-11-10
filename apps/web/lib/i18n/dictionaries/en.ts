@@ -115,6 +115,7 @@ const en = {
   },
   features: {
     eyebrow: "The platform",
+    goTo: "Go to slide",
     title: "From design to deployment,",
     accent: "a certified lifecycle.",
     description: "Deterministic performance and built-in cybersecurity, for TSN networks at the ASIL-D assurance level.",
@@ -235,6 +236,8 @@ const en = {
     label: "From the factory to the road, certified by CertiSen",
     scroll: "Scroll to start",
     hint: "Click a point to see what it is",
+    showDetails: "Details",
+    hideDetails: "Hide details",
     lead: "CertiSen is the timing formal verification layer for [[software-defined vehicles (SDV)]]. AI proposes TSN network configurations; machine-checked proofs certify them [[after every OTA update]].",
     chapters: ["Assembly", "OTA update", "Certification", "Deployment", "Timing safety", "Deadlines", "Monitoring", "Cybersecurity", "Latency", "On the road"],
     assembly: {

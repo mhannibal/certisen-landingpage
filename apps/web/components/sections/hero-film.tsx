@@ -4,6 +4,7 @@ import dynamic from "next/dynamic";
 import {
   AnimatePresence,
   motion,
+  useMotionValue,
   useMotionValueEvent,
   useScroll,
   useSpring,
@@ -53,6 +54,7 @@ import {
   PACKAGES,
   deployOf,
   downloadOf,
+  heroLayout,
   win,
 } from "@/lib/hero-film";
 import { NODES } from "@/lib/car-network";
@@ -140,6 +142,9 @@ function StoryPanel({ progress }: { progress: MotionValue<number> }) {
   const opacity = useTransform(progress, input, [0, 1, 1, 0]);
   const y = useTransform(progress, input, [24, 0, 0, 24]);
   const visibility = useTransform(opacity, (o) => (o < 0.01 ? "hidden" : "visible"));
+  // Sur mobile et tablette (panneau en bas), le détail de chaque étape est replié :
+  // la voiture reste visible ; « Détails » le déplie.
+  const [details, setDetails] = useState(false);
   // Hauteur suivie au pixel près, animée à chaque changement de contenu.
   const inner = useRef<HTMLDivElement>(null);
   const [h, setH] = useState<number>();
@@ -150,12 +155,21 @@ function StoryPanel({ progress }: { progress: MotionValue<number> }) {
     ro.observe(el);
     return () => ro.disconnect();
   }, []);
+  // Place prise en bas de l'écran (panneau + marge) : la caméra cadre la voiture au-dessus.
+  useEffect(() => {
+    const update = () => {
+      heroLayout.bottom = window.innerWidth < 1024 && h ? h + (window.innerWidth < 640 ? 12 : 96) : 0;
+    };
+    update();
+    window.addEventListener("resize", update);
+    return () => window.removeEventListener("resize", update);
+  }, [h]);
   const s = steps[step]!;
   return (
-    <div className="pointer-events-none absolute inset-0 flex items-end px-4 pb-24 sm:px-8 lg:items-center lg:px-12 lg:pb-0">
-      <motion.div style={{ opacity, y, visibility }} className="card w-full overflow-hidden rounded-xl sm:w-[400px]">
+    <div className="pointer-events-none absolute inset-0 flex items-end px-3 pb-3 sm:px-8 sm:pb-24 lg:items-center lg:px-12 lg:pb-0">
+      <motion.div style={{ opacity, y, visibility }} className="card w-full overflow-hidden rounded-xl sm:w-[380px] lg:w-[400px]">
         <motion.div animate={{ height: h ?? "auto" }} transition={{ duration: 0.55, ease: EASE }}>
-          <div ref={inner} className="p-4 sm:p-5">
+          <div ref={inner} className="p-3.5 sm:p-4 lg:p-5">
             <div className="flex items-center justify-between gap-3 font-mono text-[11px] uppercase tracking-[0.16em] text-subtle">
               {s.index === undefined ? (
                 <span className="flex items-center gap-2 text-muted">
@@ -186,11 +200,22 @@ function StoryPanel({ progress }: { progress: MotionValue<number> }) {
                 exit={{ opacity: 0, y: -8, filter: "blur(6px)" }}
                 transition={{ duration: 0.26, ease: EASE }}
               >
-                <h3 className="mt-2 text-xl font-medium tracking-tight text-fg sm:mt-3 sm:text-2xl">{s.title}</h3>
-                <p className="mt-2 text-[13px] leading-relaxed text-muted sm:text-sm">{s.text}</p>
-                {s.body ? <div className="mt-4 sm:mt-5">{s.body}</div> : null}
+                <h3 className="mt-1.5 text-base font-medium tracking-tight text-fg sm:text-lg lg:mt-3 lg:text-2xl">{s.title}</h3>
+                <p className="mt-1 text-[12.5px] leading-snug text-muted lg:mt-2 lg:text-sm lg:leading-relaxed">{s.text}</p>
+                {s.body ? <div className={`mt-3 lg:mt-5 ${details ? "" : "hidden lg:block"}`}>{s.body}</div> : null}
               </motion.div>
             </AnimatePresence>
+            {s.body ? (
+              <button
+                type="button"
+                aria-expanded={details}
+                onClick={() => setDetails((v) => !v)}
+                className="pointer-events-auto mt-2 inline-flex cursor-pointer items-center gap-1 py-1 font-mono text-[10.5px] uppercase tracking-[0.14em] text-subtle transition-colors hover:text-fg lg:hidden"
+              >
+                {details ? t.hideDetails : t.showDetails}
+                <ChevronDown className={`size-3.5 transition-transform duration-300 ${details ? "rotate-180" : ""}`} />
+              </button>
+            ) : null}
           </div>
         </motion.div>
       </motion.div>
@@ -521,19 +546,18 @@ function Monitored({ name, symbol, phase, ok }: { name: string; symbol: string; 
   const width = useTransform(time, (ms) => `${54 + 16 * Math.sin(ms / 420 + phase) + 4 * Math.sin(ms / 133 + phase * 2)}%`);
   return (
     <div className="card-inset rounded-lg p-4">
-      <div className="flex items-baseline justify-between gap-3">
-        <p className="font-mono text-[15px] text-fg">
-          |{name}| <span className="text-muted">&lt;</span> <span className="font-serif text-lg italic">{symbol}</span>
-        </p>
-        <span className="inline-flex items-center gap-1 text-[11px] text-muted">
-          <Check className="size-3" strokeWidth={3} /> {ok}
-        </span>
-      </div>
-      <div className="relative mt-3 h-2 rounded-full bg-ink-2">
+      {/* Formule sur une seule ligne ; l'état « dans la borne » passe sous la jauge. */}
+      <p className="whitespace-nowrap font-mono text-[13px] text-fg lg:text-sm">
+        |{name}| <span className="text-muted">&lt;</span> <span className="font-serif text-base italic">{symbol}</span>
+      </p>
+      <div className="relative mt-6 h-2 rounded-full bg-ink-2">
         <motion.div className="absolute inset-y-0 left-0 rounded-full bg-fg" style={{ width }} />
         <span className="absolute -top-1.5 bottom-[-6px] left-[86%] w-px bg-muted" />
         <span className="absolute -top-5 left-[86%] -translate-x-1/2 font-serif text-[13px] italic text-muted">{symbol}</span>
       </div>
+      <p className="mt-2.5 flex items-center justify-end gap-1 text-[11px] text-muted">
+        <Check className="size-3" strokeWidth={3} /> {ok}
+      </p>
     </div>
   );
 }
@@ -701,7 +725,7 @@ function Finale({ progress }: { progress: MotionValue<number> }) {
     <div className="pointer-events-none absolute inset-0 flex items-center justify-center px-6">
       <motion.div
         style={style}
-        className="flex max-w-2xl flex-col items-center rounded-3xl bg-[radial-gradient(closest-side,rgb(10_10_10/0.8),transparent)] px-10 py-14 text-center"
+        className="flex max-w-2xl flex-col items-center rounded-3xl bg-[radial-gradient(closest-side,rgb(10_10_10/0.8),transparent)] px-4 py-10 text-center sm:px-10 sm:py-14"
       >
         <LogoMark size={44} animate={false} className="text-fg" />
         <h2 className="mt-6 text-[clamp(2.25rem,5vw,4rem)] font-medium leading-[1.02] tracking-[-0.04em] text-fg">
@@ -853,17 +877,17 @@ function IntroOverlay({ intro }: { intro: MotionValue<number> }) {
             </motion.p>
             <motion.h1
               variants={INTRO_ITEM}
-              className="mt-8 text-[clamp(2.5rem,6vw,5rem)] font-medium leading-[1] tracking-[-0.045em] text-fg"
+              className="mt-6 text-[clamp(2.4rem,6vw,5rem)] font-medium leading-[1] tracking-[-0.045em] text-fg sm:mt-8"
             >
               {h.title1}
               <br />
               <span className="text-subtle">{h.title2}</span>
             </motion.h1>
-            <motion.p variants={INTRO_ITEM} className="mt-6 max-w-[34rem] text-pretty text-lg leading-relaxed text-muted">
+            <motion.p variants={INTRO_ITEM} className="mt-4 max-w-[34rem] text-pretty text-[15px] leading-relaxed text-muted sm:mt-6 sm:text-lg">
               {/* Repli sur l'accroche d'origine si le dictionnaire chargé est plus ancien. */}
               <Marked text={d.heroFilm.lead ?? h.lead} />
             </motion.p>
-            <motion.div variants={INTRO_ITEM} className="pointer-events-auto mt-9 flex flex-wrap items-center gap-3">
+            <motion.div variants={INTRO_ITEM} className="pointer-events-auto mt-6 flex flex-wrap items-center gap-3 sm:mt-9">
               <PrimaryButton href="#contact">
                 {h.cta}
                 <ArrowRight className="size-4 transition-transform group-hover:translate-x-0.5" />
@@ -875,12 +899,12 @@ function IntroOverlay({ intro }: { intro: MotionValue<number> }) {
             {/* Repères clés : niveau de confiance, premier périmètre, preuves */}
             <motion.dl
               variants={INTRO_ITEM}
-              className="mt-12 grid max-w-3xl grid-cols-1 border-t border-line sm:mt-16 sm:grid-cols-3"
+              className="mt-8 grid max-w-3xl grid-cols-3 border-t border-line sm:mt-16"
             >
               {h.facts.map((f, i) => (
-                <div key={f.k} className={`py-4 sm:py-5 sm:pr-6 ${i > 0 ? "border-t border-line sm:border-l sm:border-t-0 sm:pl-6" : ""}`}>
-                  <dt className="font-mono text-[11px] uppercase tracking-[0.14em] text-subtle">{f.k}</dt>
-                  <dd className="mt-1.5 text-[15px] text-fg">{f.v}</dd>
+                <div key={f.k} className={`py-3 pr-2 sm:py-5 sm:pr-6 ${i > 0 ? "border-l border-line pl-3 sm:pl-6" : ""}`}>
+                  <dt className="font-mono text-[9.5px] uppercase leading-snug tracking-[0.12em] text-subtle sm:text-[11px] sm:tracking-[0.14em]">{f.k}</dt>
+                  <dd className="mt-1 text-[13px] leading-snug text-fg sm:mt-1.5 sm:text-[15px]">{f.v}</dd>
                 </div>
               ))}
             </motion.dl>
@@ -906,10 +930,19 @@ export function HeroFilm() {
   const intro = useTransform(progress, [0, INTRO], [0, 1]);
   const film = useTransform(progress, [INTRO, 1], [0, 1]);
   const hint = useTransform(intro, [0, 0.15], [1, 0]);
-  const hintPoints = useTransform([film, intro], ([p, ip]) => {
+  // Écran large (≥ 640 px), lu après le montage : le rendu serveur et le premier rendu client concordent.
+  const wide = useMotionValue(0);
+  useEffect(() => {
+    const f = () => wide.set(window.innerWidth >= 640 ? 1 : 0);
+    f();
+    window.addEventListener("resize", f);
+    return () => window.removeEventListener("resize", f);
+  }, [wide]);
+  const hintPoints = useTransform([film, intro, wide], ([p, ip, w]) => {
     const f = p as number;
     const i = ip as number;
-    const inIntro = (1 - Math.min(1, f / 0.035)) * Math.min(1, i / 0.15 + 0.4);
+    // Pendant l'intro, seulement sur écran large : sur mobile, le texte de l'intro occupe le haut.
+    const inIntro = (w as number) * (1 - Math.min(1, f / 0.035)) * Math.min(1, i / 0.15 + 0.4);
     return Math.max(inIntro, ...FILM.network.map(([a, b]) => win(f, a, b, 0.01)));
   });
   const markers = useRef<MarkerMap>(new Map());
